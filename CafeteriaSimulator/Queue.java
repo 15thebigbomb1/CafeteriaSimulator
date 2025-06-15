@@ -1,33 +1,46 @@
 
 /**
- * Write a description of class Queue here.
+ * Write a description of class IQueue here.
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 public class Queue
 {
-    // instance variables - replace the example below with your own
-    private int x;
-
-    /**
-     * Constructor for objects of class Queue
-     */
-    public Queue()
-    {
-        // initialise instance variables
-        x = 0;
+    private Elements head;
+    private Elements Tail;
+    
+    public Queue() {
+        
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
-    {
-        // put your code here
-        return x + y;
+    
+    public boolean queueEmpty() {
+        return (head == null);
     }
+    
+    public void push (int value, int valueTwo) {
+        Elements element = new Elements();
+        element.setValue(value);
+        if (valueTwo == 1) {
+            element.setStudent();
+        } else {
+            element.setTeacher();
+        }
+         
+        if (queueEmpty()) {
+            head = element;
+        }
+        
+        if (Tail != null) {
+            Tail.LinkTo(element);
+        }
+        Tail = element;
+    }
+    
+    public int pop() {
+        int value=head.getValue();
+        head =head.nextStack();
+        return value;
+    }
+    
 }

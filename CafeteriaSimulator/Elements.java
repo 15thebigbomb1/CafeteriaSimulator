@@ -8,6 +8,7 @@
 public class Elements
 {
     private int payload;
+    private boolean isStudent;
     private Elements next;
     public Elements()
     {
@@ -26,7 +27,26 @@ public class Elements
         payload = value;
     }
     
+    public void setStudent() {
+      isStudent = true;
+    }
+    
+    public void setTeacher() {
+      isStudent = false;
+    }
+    
     public int getValue() {
         return payload;
+    }
+    
+    public String getType() {
+        String returnType;
+        if (isStudent == true) {
+            returnType = "Student";
+            return returnType;
+        } else {
+            returnType = "Teacher";
+            return returnType;
+        }
     }
 }
