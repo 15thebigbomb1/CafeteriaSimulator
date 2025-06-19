@@ -8,45 +8,40 @@
 public class Elements
 {
     private int payload;
-    private boolean isStudent;
+    private boolean isTeacher;
     private Elements next;
     public Elements()
     {
         
     }
-    
+    //to Start an element object
     public void LinkTo(Elements to) {
         next = to;
     }
-    
+    //Links the element to another user selected element
     public Elements nextStack() {
         return next;
     }
-    
+    //returns the linked element 
     public void setValue(int value) {
         payload = value;
     }
-    
+    //sets the elements value 
     public void setStudent() {
-      isStudent = true;
+      isTeacher = false;
     }
-    
+    //sets teacher to false
     public void setTeacher() {
-      isStudent = false;
+      isTeacher = true;
     }
-    
+    // sets teacher to true
     public int getValue() {
         return payload;
     }
-    
+    //returns value
     public String getType() {
-        String returnType;
-        if (isStudent == true) {
-            returnType = "Student";
-            return returnType;
-        } else {
-            returnType = "Teacher";
-            return returnType;
-        }
+        if (isTeacher == true) {return "Teacher";} 
+        else {return "Student";} 
     }
+    // returns Teacher if isTeacher is true, and it returns Student if false
 }
