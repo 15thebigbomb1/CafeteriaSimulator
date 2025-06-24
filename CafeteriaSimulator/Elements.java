@@ -7,7 +7,7 @@
  */
 public class Elements
 {
-    private int payload;
+    private int Time;
     private boolean isTeacher;
     private Elements next;
     public Elements()
@@ -24,9 +24,9 @@ public class Elements
     }
     //returns the linked element 
     public void setValue(int value) {
-        payload = value;
+        Time = value;
     }
-    //sets the elements value 
+    //sets the time value
     public void setStudent() {
       isTeacher = false;
     }
@@ -36,9 +36,9 @@ public class Elements
     }
     // sets teacher to true
     public int getValue() {
-        return payload;
+        return Time;
     }
-    //returns value
+    //returns Time value
     public String getType() {
         if (isTeacher == true) {return "Teacher";} 
         else {return "Student";} 

@@ -13,11 +13,11 @@ public class Queue
     public Queue() {
         
     }
-    
+    //creates object
     public boolean queueEmpty() {
         return (head == null);
     }
-    
+    // returns if queue is empty
     public void push (int value, int valueTwo) {
         Elements element = new Elements();
         element.setValue(value);
@@ -35,6 +35,17 @@ public class Queue
             Tail.LinkTo(element);
         }
         Tail = element;
+        
+        
+    }
+    // creates 
+    public void updateTime() {
+        Elements timeUpdater = head;
+        while (timeUpdater != null) {
+           timeUpdater.setValue((timeUpdater.getValue()+1));
+           
+           timeUpdater = timeUpdater.nextStack();
+        }
     }
     
     public int pop() {

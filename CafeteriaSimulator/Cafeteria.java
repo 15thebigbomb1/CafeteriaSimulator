@@ -20,6 +20,9 @@ public class Cafeteria
     ArrayList<String> studentAmount = new ArrayList<String>();
     ArrayList<String> staffAmount = new ArrayList<String>();
     ArrayList<String> servedAmount = new ArrayList<String>();
+    Scanner kb = new Scanner(System.in);
+    
+    private Queue queue = new Queue();
     
     public Cafeteria() {
         
@@ -80,4 +83,35 @@ public class Cafeteria
         } catch (IOException e) {System.out.println(e);}
     }
     
+    public void RunCafetria() {
+        
+        System.out.println("How long do you want to run the simulator for?");
+        int timeFrame = (kb.nextInt() -1);
+        int whileLoopValue = 0;
+        for (int i = 0;i<=timeFrame;i++) {
+            int studentValue = Integer.parseInt(studentAmount.get(i));
+            System.out.println(studentValue);
+            int staffValue = Integer.parseInt(staffAmount.get(i));
+            System.out.println(staffValue);
+            int servedValue = Integer.parseInt(servedAmount.get(i));
+            
+            System.out.println(servedValue);
+            while (whileLoopValue < studentValue) {
+                queue.push(0,1);
+                whileLoopValue++;
+            }
+            whileLoopValue = 0;
+            while (whileLoopValue < staffValue) {
+                queue.push(0,2);
+                whileLoopValue++;
+            }
+            whileLoopValue = 0;
+            while (whileLoopValue < servedValue) {
+                queue.pop();
+                whileLoopValue++;
+            }
+            whileLoopValue = 0;
+            queue.updateTime();
+        }
+    }
 }
