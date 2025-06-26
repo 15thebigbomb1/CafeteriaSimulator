@@ -7,8 +7,8 @@
  */
 public class Queue
 {
-    private Elements head;
-    private Elements Tail;
+    public Elements head;
+    public Elements Tail;
     
     public Queue() {
         

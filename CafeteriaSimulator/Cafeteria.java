@@ -14,31 +14,30 @@ public class Cafeteria
     final String filename="Arrival.csv"; // change to reflect the CSV we are reading
     final int MAXLINES=100; // for ease of writing, we are only going to read at most 100 lines.
     final int VALUESPERLINE=4;  
-    
+
     private String[] values;
-    
+
     ArrayList<String> studentAmount = new ArrayList<String>();
     ArrayList<String> staffAmount = new ArrayList<String>();
     ArrayList<String> servedAmount = new ArrayList<String>();
     Scanner kb = new Scanner(System.in);
-    
+
     private Queue queue = new Queue();
-    
+
     public Cafeteria() {
-        
+
     }
-    
+
     public void defineCSVFile() {
         File  thefile = new File(filename);  // generate the file handle
         String CSVlines[] = new String[MAXLINES];
         String AllLinesAllElements[][]=new String[MAXLINES][VALUESPERLINE];  // where we keep all those lines we read in.
         int linecount=0;  // initially keeps track of lines read, eventually used to remember the number that was read;
-        
-        
+
 
         try {
             Scanner reader = new Scanner(thefile); // open the file with the Scanner
-            
+
             // Read in the file, stop at file end or if we read too many lines
             while (reader.hasNextLine()  && linecount < MAXLINES){
                 String line=reader.nextLine();             
@@ -71,7 +70,7 @@ public class Cafeteria
                     }
                 }
             }
-            
+
             for (int i=0;i<60;i++){
                 System.out.println();
                 System.out.println(+i+1+" Minutes!");
@@ -82,19 +81,21 @@ public class Cafeteria
             }
         } catch (IOException e) {System.out.println(e);}
     }
-    
+
     public void RunCafetria() {
-        
+
         System.out.println("How long do you want to run the simulator for?");
         int timeFrame = (kb.nextInt() -1);
         int whileLoopValue = 0;
+        Elements head = queue.head;
+        Elements tail = queue.Tail;
         for (int i = 0;i<=timeFrame;i++) {
             int studentValue = Integer.parseInt(studentAmount.get(i));
             System.out.println(studentValue);
             int staffValue = Integer.parseInt(staffAmount.get(i));
             System.out.println(staffValue);
             int servedValue = Integer.parseInt(servedAmount.get(i));
-            
+
             System.out.println(servedValue);
             while (whileLoopValue < studentValue) {
                 queue.push(0,1);
@@ -111,7 +112,20 @@ public class Cafeteria
                 whileLoopValue++;
             }
             whileLoopValue = 0;
-            queue.updateTime();
+            
+            Elements next = head;
+            int divideBy = 0;
+            int total = 0;
+            while (next.nextStack() != null) {
+                total = total + next.getValue();
+                next = next.nextStack();
+                divideBy++;
+                System.out.println("Divide by is "+divideBy);
+            }
+            int value = total/divideBy;
+            System.out.println("The average wait time for "+timeFrame+" minutes is "+value);
         }
+        
+        
     }
 }
