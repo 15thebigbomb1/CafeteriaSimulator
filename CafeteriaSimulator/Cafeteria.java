@@ -34,7 +34,6 @@ public class Cafeteria
         String AllLinesAllElements[][]=new String[MAXLINES][VALUESPERLINE];  // where we keep all those lines we read in.
         int linecount=0;  // initially keeps track of lines read, eventually used to remember the number that was read;
 
-
         try {
             Scanner reader = new Scanner(thefile); // open the file with the Scanner
 
@@ -83,7 +82,6 @@ public class Cafeteria
     }
 
     public void RunCafetria() {
-
         System.out.println("How long do you want to run the simulator for?");
         int timeFrame = (kb.nextInt() -1);
         int whileLoopValue = 0;
@@ -91,12 +89,16 @@ public class Cafeteria
         Elements tail = queue.Tail;
         for (int i = 0;i<=timeFrame;i++) {
             int studentValue = Integer.parseInt(studentAmount.get(i));
-            System.out.println(studentValue);
-            int staffValue = Integer.parseInt(staffAmount.get(i));
-            System.out.println(staffValue);
-            int servedValue = Integer.parseInt(servedAmount.get(i));
+            System.out.println("Student amount is "+studentValue);
 
-            System.out.println(servedValue);
+            int staffValue = Integer.parseInt(staffAmount.get(i));
+            System.out.println("Staff amount is "+staffValue);
+
+            int servedValue = Integer.parseInt(servedAmount.get(i));
+            System.out.println("Served amount is "+servedValue);
+
+            System.out.println();
+
             while (whileLoopValue < studentValue) {
                 queue.push(0,1);
                 whileLoopValue++;
@@ -112,20 +114,36 @@ public class Cafeteria
                 whileLoopValue++;
             }
             whileLoopValue = 0;
+            queue.updateTime();
             
+            head = queue.head;
             Elements next = head;
-            int divideBy = 0;
-            int total = 0;
-            while (next.nextStack() != null) {
-                total = total + next.getValue();
+            System.out.println("head is "+next.getValue());
+            System.out.println();
+            float divideStudent = 0;
+            float divideStaff = 0;
+            float totalStudent = 0;
+            float totalStaff = 0;
+            while (next != null) {
+                if (next.getType() == "Teacher") {
+                    totalStaff = totalStaff + next.getValue();
+                    divideStaff++;
+                } else {
+                    totalStudent = totalStudent + next.getValue();
+                    divideStudent++;
+                }
                 next = next.nextStack();
-                divideBy++;
-                System.out.println("Divide by is "+divideBy);
             }
-            int value = total/divideBy;
-            System.out.println("The average wait time for "+timeFrame+" minutes is "+value);
+            
+            System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
+            System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
+            float staffAverage = totalStaff/divideStaff;
+            float studentAverage = totalStudent/divideStudent;
+            float average = (totalStaff + totalStudent)/(divideStudent + divideStaff);
+            System.out.println("The average wait time for "+(i+1)+" minutes for students is "+studentAverage);
+            System.out.println("The average wait time for "+(i+1)+" minutes for staff is "+staffAverage);
+            System.out.println("The avaerage wait time for both students and teachers is "+average);
         }
-        
-        
+
     }
 }
