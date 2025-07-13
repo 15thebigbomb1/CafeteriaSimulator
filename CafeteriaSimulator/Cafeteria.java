@@ -21,9 +21,21 @@ public class Cafeteria
     ArrayList<String> staffAmount = new ArrayList<String>();
     ArrayList<String> servedAmount = new ArrayList<String>();
     Scanner kb = new Scanner(System.in);
+    
 
     private Queue queue = new Queue();
-
+    // defines the queue class
+    private Elements head = queue.head;
+    //defines the head element found in the queue class
+    private Elements tail = queue.Tail;
+    //defines the tail element found in the queue class
+    
+    private PriorityQueue priorityQueue = new PriorityQueue();
+    // defines the priority queue class for teachers
+    private Elements pHead = priorityQueue.head;
+    //defines the head element found in the priority queue class
+    private Elements pTail = priorityQueue.head;
+    //defines the tail element found in the priority queue class
     public Cafeteria() {
 
     }
@@ -35,14 +47,14 @@ public class Cafeteria
         int linecount=0;  // initially keeps track of lines read, eventually used to remember the number that was read;
 
         try {
-            Scanner reader = new Scanner(thefile); // open the file with the Scanner
+            Scanner reader = new Scanner(thefile); // Opens the file with the Scanner,
 
             while (reader.hasNextLine()  && linecount < MAXLINES){
                 String line=reader.nextLine();             
                 CSVlines[linecount]=line;
                 linecount++;
             }
-            // reads the file and adds it to the csvLines array 
+            // Reads the file and adds it to the csvLines array.
             for (int i =1; i<linecount; i++){
                 System.out.println(CSVlines[i]);
                 values = CSVlines[i].split(",");
@@ -79,24 +91,36 @@ public class Cafeteria
                 System.out.println("Amount served "+servedAmount.get(i));
                 System.out.println();
             }
-            //prints out the amounts of student,staff,served in each row.
+            //Prints out the amounts of student,staff,served in each row.
             
         } catch (IOException e) {System.out.println(e);}
     }
 
     public void RunCafetria() {
         System.out.println("How long do you want to run the simulator for?");
-        int timeFrame = (kb.nextInt() -1);
+        int timeFrame = 0;
+        boolean timeEnterLoop = true;
+        while (timeEnterLoop == true) {
+             timeFrame = (kb.nextInt() -1);
+             if (timeFrame <= 60) {
+                 timeEnterLoop = false;
+             } else {
+                System.out.println("try again"); 
+             }
+        }
+        
         // lets the user choose the amount of times the for loop runs and therefore-
-        //-how many minutes the simulation wll go for
+        //-how many minutes the simulation wll go for.
         int whileLoopValue = 0;
-        //defining the whileLoopValue 
+        //defining the whileLoopValue.
         Elements head = queue.head;
-        //defines the head element found in the queue class
+        //defines the head element found in the queue class.
         Elements tail = queue.Tail;
-        //defines the tail element found in the queue class
+        //defines the tail element found in the queue class.
         
         for (int i = 0;i<=timeFrame;i++) {
+            queue.updateTime(); 
+            priorityQueue.updateTime();
             int studentValue = Integer.parseInt(studentAmount.get(i));
             //Amount of students in a csv line that will be pushed in the queue
             System.out.println("Student amount is "+studentValue);
@@ -110,32 +134,36 @@ public class Cafeteria
             System.out.println("Served amount is "+servedValue);
 
             while (whileLoopValue < studentValue) {
-                queue.push(0,1);
+                queue.push(1);
                 whileLoopValue++;
             }
             whileLoopValue = 0;
             //pushes the student objects
             
             while (whileLoopValue < staffValue) {
-                queue.push(0,2);
+                priorityQueue.push(1);
                 whileLoopValue++;
             }
             whileLoopValue = 0;
-            //pushes the teacher objects
             
             while (whileLoopValue < servedValue) {
-                queue.pop();
+                if (priorityQueue.queueEmpty() == false) {
+                    priorityQueue.pop();
+                } else {
+                    queue.pop();
+                }
                 whileLoopValue++;
             }
             whileLoopValue = 0;
-            //amount of times they serve the students and teacher
             
             
-            queue.updateTime();
-            //runs code in the queue class that will add one minutes to every object in the queue 
+            
             head = queue.head;
+            pHead = priorityQueue.head;
+            System.out.println(pHead);
             //redfining the head of the queue as it has changed from all the values we have pushed
             Elements next = head;
+            Elements pNext = pHead;
             //System.out.println("head is "+next.getValue());
             
             float divideStudent = 0;
@@ -143,19 +171,21 @@ public class Cafeteria
             float totalStudent = 0;
             float totalStaff = 0;
             //values for finding the averages 
+            
             while (next != null) {
-                if (next.getType() == "Teacher") {
-                    totalStaff = totalStaff + next.getValue();
-                    divideStaff++;
-                } else {
-                    totalStudent = totalStudent + next.getValue();
-                    divideStudent++;
-                }
-                //will add to the amounts of teachers and students 
+                totalStudent = totalStudent + next.getValue();
+                divideStudent++;
                 next = next.nextStack();
                 //goes to the next object in the queue 
             }
-            //while loop that gets all the time values for every object in the queue
+            
+            while (pNext != null) {
+                totalStaff = totalStaff + pNext.getValue();
+                System.out.println(totalStaff);
+                divideStaff++;
+                System.out.println(divideStaff);
+                pNext = pNext.nextStack();
+            }
             
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);

@@ -18,17 +18,11 @@ public class Queue
         return (head == null);
     }
     // returns if queue is empty
-    public void push (int value, int valueTwo) {
+    public void push (int value) {
         Elements element = new Elements();
         //creates new element
         element.setValue(value);
         //defines the value of the object aka the int amount
-        if (valueTwo == 1) {
-            element.setStudent();
-        } else {
-            element.setTeacher();
-        }
-        // defines if the object is a teacher or a student
         if (queueEmpty()) {
             head = element;
         }
@@ -39,8 +33,6 @@ public class Queue
         //if the tail is defined then the tail gets linked to the element
         Tail = element;
         //element is defined as tail
-        
-        
     }
     // creates/pushes a new object into the queue
     public void updateTime() {
