@@ -18,6 +18,7 @@ public class Gui extends JFrame implements ActionListener
   JMenu menu;
   JMenuItem menuItem;
   JButton myButton;
+  JPanel northWPanel, northPanel, northEPanel, centerWPanel, centerPanel, centerEPanel,bottomWPanel,bottomPanel,bottomEPanel;
   GridBagConstraints gbc = new GridBagConstraints();
   public Gui() {
     setTitle("Cafeteria Simulator");
@@ -32,23 +33,33 @@ public class Gui extends JFrame implements ActionListener
     menuItem.addActionListener(this);
     menu.add(menuItem);
     
+      
+    this.setLayout(new GridBagLayout());
+    northWPanel = new JPanel(); northPanel = new JPanel(); northEPanel = new JPanel(); centerWPanel = new JPanel(); centerPanel = new JPanel(); centerEPanel = new JPanel(); bottomWPanel = new JPanel(); bottomPanel = new JPanel(); bottomEPanel = new JPanel();
+    
+    gbc.anchor = gbc.NORTHWEST;
+    northWPanel.setPreferredSize(new Dimension(100,100));
+    northW
+    this.add(northWPanel,gbc);
+    gbc.anchor = gbc.NORTH;
+    this.add(northPanel,gbc);
+    gbc.anchor = gbc.NORTHEAST;
+    this.add(northEPanel,gbc);
+    gbc.anchor = gbc.EAST;
+    this.add(centerEPanel,gbc);
+    
     myButton = new JButton();
-    
-    
     myButton.setText("Press me");
     myButton.setPreferredSize(new Dimension(150,50));
     myButton.setOpaque(true);
-    
-    
-    
-    
-    
-    
-    this.setLayout(new GridBagLayout());
+    gbc.weightx = 0;
+    gbc.weighty = 0;
     gbc.gridx = 0;
-    gbc.gridy = 2;
-    this.add(myButton, gbc);
-    this.getContentPane().setPreferredSize(new Dimension(1900,1080));
+    gbc.gridy = 0;
+    gbc.anchor = gbc.NORTHEAST;
+    this.add(myButton,gbc);
+    
+    this.getContentPane().setPreferredSize(new Dimension(900,900));
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     
     //defing the size of the window and that it will exit when closed
