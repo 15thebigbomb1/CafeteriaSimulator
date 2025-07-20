@@ -6,75 +6,94 @@
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.Scanner;
 import java.awt.event.*;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
 public class Gui extends JFrame implements ActionListener
 {
   JMenuBar menuBar;
+  //Menubar object that holds the menu.
   JMenu menu;
+  //Menu obejct that holds the menu item.
   JMenuItem menuItem;
-  JButton myButton;
-  JPanel northWPanel, northPanel, northEPanel, centerWPanel, centerPanel, centerEPanel,bottomWPanel,bottomPanel,bottomEPanel;
-  GridBagConstraints gbc = new GridBagConstraints();
+  //Menu item found in the menu.
+  JPanel menuPanel;
+  //Menu Panel that holds the background colour and canvas.
+  Canvas myGraphic;
+  //Canvas that displays the drawn properties like the drawn buttons and -
+  //- images.
+  ImageIcon whsLogo = new ImageIcon("whsLogo.png");
+  //The url for the image that is displayed on the canvas.
+  Color panelColor = new Color(135, 224, 144);
+  //Defines the colour of the panel, which will change when going to a diffrent-
+  //-page.
+  //Menu objects.
+  
+  public int windowWidth = 450;
+  public int windowHeight = 450;
+  //Window variables for size.
+  
+  Toolkit toolkit = Toolkit.getDefaultToolkit();
+  Dimension screenSize = toolkit.getScreenSize();
+  int screenWidth = screenSize.width;
+  int screenHeight = screenSize.height;
+    
   public Gui() {
     setTitle("Cafeteria Simulator");
     menuBar = new JMenuBar();
+    //Defines menubar in constructer.
+    menuBar.setBackground(Color.GRAY);
+    //Changes the color=ur of the menubar to gray.
+    menuBar.setBorder(BorderFactory.createEmptyBorder());
+    //Removes a white border line that is there by default between the bar and canvas to make the windows-
+    //-colours blend more nicely.
+    
     this.setJMenuBar(menuBar);  
-    
+    //adds menubar to default panel.
     menu = new JMenu("Options");
+    // Defines the option menu in constucter
+    menu.setForeground(Color.WHITE);
+    //Defines the colour of the menus text.
     menuBar.add(menu);
-    
-    
+    // adds the menu to the menuBar.
     menuItem = new JMenuItem("Exit");
+    //defines menuItem in constructer.
     menuItem.addActionListener(this);
+    //Adds a listener so when its pressed it'll run a method.
     menu.add(menuItem);
-    
-      
-    this.setLayout(new GridBagLayout());
-    northWPanel = new JPanel(); northPanel = new JPanel(); northEPanel = new JPanel(); centerWPanel = new JPanel(); centerPanel = new JPanel(); centerEPanel = new JPanel(); bottomWPanel = new JPanel(); bottomPanel = new JPanel(); bottomEPanel = new JPanel();
-    
-    gbc.anchor = gbc.NORTHWEST;
-    northWPanel.setPreferredSize(new Dimension(100,100));
-    northW
-    this.add(northWPanel,gbc);
-    gbc.anchor = gbc.NORTH;
-    this.add(northPanel,gbc);
-    gbc.anchor = gbc.NORTHEAST;
-    this.add(northEPanel,gbc);
-    gbc.anchor = gbc.EAST;
-    this.add(centerEPanel,gbc);
-    
-    myButton = new JButton();
-    myButton.setText("Press me");
-    myButton.setPreferredSize(new Dimension(150,50));
-    myButton.setOpaque(true);
-    gbc.weightx = 0;
-    gbc.weighty = 0;
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.anchor = gbc.NORTHEAST;
-    this.add(myButton,gbc);
-    
-    this.getContentPane().setPreferredSize(new Dimension(900,900));
+    //Adds the menuitem to the menu.
+    menuPanel = new JPanel();
+    //Defines menuPanel in constructer.
+    menuPanel.setBackground(panelColor);
+    //Changes the colour to the color chosen for the background.
+    myGraphic = new Canvas();
+    //Defines the canvas in the constructer.
+    menuPanel.add(myGraphic); 
+    //Adds the canvas to the menupanel.
+    this.getContentPane().add(menuPanel);
+    // Reupdates the menuPanel to update the colour of the background.
+    this.getContentPane().setPreferredSize(new Dimension(windowWidth,windowHeight));
+    //Defines the size of the window at 450x450.
+    this.setResizable(false);
+    //Makes it so the user cant resize the window.
+    this.setLocation((screenWidth/2 - windowWidth/2),(screenHeight/2 - windowHeight/2));
+    //Sets the location of the window on the screen by using a formula involving your screens-
+    //-aspect ratio to make sure its in the middle on any screen.
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    
-    //defing the size of the window and that it will exit when closed
+    //defing that it will exit when closed
     this.pack();
     //packing eveything
     this.toFront();
+    //brings everything to the front
     this.setVisible(true);
     //putting the window to the fronting and defining its viasibility to true
   }
   
   public void actionPerformed(ActionEvent e) {
       String cmd = e.getActionCommand();
-      // defining the name of the menu option pressed as string.
+      // Defining the name of the menu option pressed as string.
       System.out.println(cmd);
-      //printing it.
+      //Printing what the menu option is called.
       switch(cmd) {
           case "Exit":
               System.exit(0);
@@ -84,12 +103,38 @@ public class Gui extends JFrame implements ActionListener
   
   public void paint (Graphics g ) {
         super.paint(g);
+        //Defines the painting method
+        whsLogo.paintIcon(this,g,157,100);
+        //Paints the whs logo with its x and y corrodinates.
         Graphics2D g2 = (Graphics2D) g; 
-        // int rectWidth = releasedX - pressedX;
-        // int rectHeight = releasedY - pressedY;
-        // System.out.println(rectWidth);
-        // System.out.println(rectHeight);        
-        // g2.drawRect(pressedX,pressedY,rectWidth,rectHeight);
+        //Defines the 2d paint methods for circles/rectangles etc.
+        g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
+        //Sets font.
+        g2.setColor(new Color(255,238,140));
+        //Sets colour.
+        g2.drawString("Wellington High",97,270);
+        g2.drawString("Cafeteria Simulator",71,300);
+        //Paints the text onto the canvas.
+        
+        
+        g2.setColor(Color.WHITE);
+        //Sets colour.
+        g2.fillRect(200,320,65,25);
+        //Paints a colour filled rectangle and defines size and corrodinates.
+        g2.setColor(Color.BLACK);
+        //Sets Colour.
+        g2.setStroke(new BasicStroke(3));
+        //Changes the brush stroke to make it thicker.
+        g2.drawRect(200,320,65,25);
+        //Draws another rectangle over the filled rectangle in a diffrent colour-
+        //-to create a border for it.
+        g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,25));
+        //Sets font.
+        g2.setColor(Color.BLACK);
+        //Sets colour.
+        g2.drawString("start",203,340);
+        //Draws the text found in the rectancle to make it look like a-
+        //-button.
     }
   
 }
