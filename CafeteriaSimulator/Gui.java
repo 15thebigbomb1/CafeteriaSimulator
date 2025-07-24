@@ -19,7 +19,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     //Menu item found in the menu.
     JPanel startingPanel;
     JPanel mainPanel;
-    String[] Panels = {"startingPanel","mainPanel","optionPanel","resultPanel"};
+    JPanel deletePanel;
 
     //Menu Panel that holds the background colour and canvas.
     Canvas startingGraphic;
@@ -43,7 +43,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     int screenWidth = screenSize.width;
     int screenHeight = screenSize.height;
     //Screen size
-    int chooseMenuValues = 1;
+    int drawMenuValue = 1;
+    
 
     public Gui() {
         setTitle("Cafeteria Simulator");
@@ -72,7 +73,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         mainPanel = new JPanel();
         //Defines the panels that will be used in the gui.
         startingPanel.setBackground(panelColor);
-        mainPanel.setBackground(Color.RED);
+        mainPanel.setBackground(new Color(135, 224, 144));
         //Changes the colour to the color chosen for the background.
         startingGraphic = new Canvas();
         mainGraphic = new Canvas();
@@ -81,7 +82,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         mainPanel.add(mainGraphic);
         //Adds the canvases to the panels.
 
-        this.getContentPane().add(startingPanel);
+        
         // Reupdates the startingPanel to update the colour of the background.
         this.getContentPane().setPreferredSize(new Dimension(windowWidth,windowHeight));
         //Defines the size of the window at 450x450.
@@ -92,36 +93,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //-aspect ratio to make sure its in the middle on any screen.
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //defing that it will exit when closed
-        this.pack();
-        //packing eveything
-        this.toFront();
-        //brings everything to the front
-        this.setVisible(true);
         addMouseListener(this);
-        //putting the window to the fronting and defining its viasibility to true
-    }
-
-    
-
-    public void ChooseMenu(int chooseMenuValue) {
-        switch (chooseMenuValue) {
-            case 1:
-                System.out.println("Starting menu chosen");
-                repaint();
-                chooseMenuValues = 1;
-                break;
-            case 2:
-                System.out.println("Second menu chosen");
-                mainPanel();
-                chooseMenuValues = 2;
-                repaint();
-                break;
-            case 3:
-                System.out.println("Option menu chosen:");
-                chooseMenuValues = 3;
-                repaint();
-                break;
-        }
+        //putting the window to the fronting and defining its viasibility to true\
+        startingPanel();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -136,13 +110,58 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         }
     }
 
+    public void ChooseMenu(int chooseMenuValue) {
+        switch (chooseMenuValue) {
+            case 1:
+                System.out.println("Starting menu chosen");
+                repaint();
+                drawMenuValue = 1;
+                startingPanel();
+                break;
+            case 2:
+                System.out.println("Second menu chosen");
+                mainPanel();
+                drawMenuValue = 2;
+                repaint();
+                break;
+            case 3:
+                System.out.println("Option menu chosen:");
+                drawMenuValue = 3;
+                repaint();
+                break;
+        }
+    }
+
+    public void startingPanel() {
+        if (deletePanel == null) {
+            System.out.println("first panel, nothing to delete");
+        } else {
+            this.getContentPane().remove(deletePanel);
+        }
+        this.getContentPane().add(startingPanel);
+        this.pack();
+        //packing eveything
+        this.toFront();
+        //brings everything to the front
+        this.setVisible(true);
+        deletePanel = startingPanel;
+    }
+    
+    public void mainPanel() {
+        this.getContentPane().remove(deletePanel);
+        this.getContentPane().add(mainPanel);
+        this.pack();
+        this.toFront();
+        deletePanel = mainPanel;
+    }
+    
     public void paint (Graphics g ) {
         super.paint(g);
         //Defines the painting method
         Graphics2D g2 = (Graphics2D) g; 
         //Defines the 2d paint methods for circles/rectangles etc.
 
-        switch (chooseMenuValues) {
+        switch (drawMenuValue) {
 
             case 1:
                 whsLogo.paintIcon(this,g,157,100);
@@ -173,24 +192,27 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //-button.
                 break;
             case 2:
-                g2.setColor(Color.GREEN);
+                g2.setColor(new Color(255,238,140));
                 g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
                 g2.drawString("Hello World!",97,270);
+                g2.setColor(Color.WHITE);
+                //Sets colour.
+                g2.fillRect(200,340,65,25);
+                //Paints a colour filled rectangle and defines size and corrodinates.
+                g2.setColor(Color.BLACK);
+                //Sets Colour.
+                g2.setStroke(new BasicStroke(3));
+                g2.drawRect(200,340,65,25);
+                //Draws another rectangle over the filled rectangle in a diffrent colour-
+                //-to create a border for it.
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,25));
+                //Sets font.
+                g2.setColor(Color.BLACK);
+                //Sets colour.
+                g2.drawString("Back",203,360);
                 break;
         }
     }
-    public void startingPanel() {
-        this.getContentPane().add(startingPanel);
-        
-    }
-    
-    public void mainPanel() {
-        this.getContentPane().remove(startingPanel);
-        this.getContentPane().add(mainPanel);
-        this.pack();
-        this.toFront();
-    }
-    
     public void mouseExited(MouseEvent e) {};
 
     public void mouseEntered(MouseEvent e) {};
@@ -200,7 +222,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Defines the mouses x corrodinate.
         int mouseY = e.getY();
         //Defines the mouses Y corrodinate.
-        switch (chooseMenuValues) {
+        switch (drawMenuValue) {
             case 1: 
                 if (mouseX >= 200 && mouseX <= 265 && mouseY >= 320 && mouseY <= 345) {
                     System.out.println("button Pressed");
@@ -208,7 +230,10 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 }
                 break;
             case 2:
-                System.out.println("Menu Two!!!");
+                if (mouseX >= 200 && mouseX <= 265 && mouseY >= 340 && mouseY <= 365) {
+                    System.out.println("button Pressed");
+                    ChooseMenu(1);
+                }
                 break;
         }
     }

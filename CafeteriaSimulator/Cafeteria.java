@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Cafeteria
 {
-    final String filename="Arrival.csv"; // change to reflect the CSV we are reading
+    final String filename="Aririval.csv"; // change to reflect the CSV we are reading
     final int MAXLINES=100; // for ease of writing, we are only going to read at most 100 lines.
     final int VALUESPERLINE=4;  
 
@@ -22,7 +22,9 @@ public class Cafeteria
     ArrayList<String> servedAmount = new ArrayList<String>();
     Scanner kb = new Scanner(System.in);
     
-
+    private ArrayList<Float> staffAverageList = new ArrayList<Float>();
+    private ArrayList<Float> studentAverageList = new ArrayList<Float>();
+    private ArrayList<Float> averageList = new ArrayList<Float>();
     private Queue queue = new Queue();
     // defines the queue class
     private Elements head = queue.head;
@@ -36,6 +38,7 @@ public class Cafeteria
     //defines the head element found in the priority queue class
     private Elements pTail = priorityQueue.head;
     //defines the tail element found in the priority queue class
+    
     public Cafeteria() {
 
     }
@@ -132,16 +135,29 @@ public class Cafeteria
             int servedValue = Integer.parseInt(servedAmount.get(i));
             //Amount of students and teachers in the csv line that will be served in the queue
             System.out.println("Served amount is "+servedValue);
+            head = queue.head;
+            pHead = priorityQueue.head;
+            System.out.println(pHead);
+            //redfining the head of the queue as it has changed from all the values we have pushed
+            Elements next = head;
+            Elements pNext = pHead;
+            //System.out.println("head is "+next.getValue());
+            float divideStudent = 0;
+            float divideStaff = 0;
+            float totalStudent = 0;
+            float totalStaff = 0;
+            //values for finding the averages 
+            
 
             while (whileLoopValue < studentValue) {
-                queue.push(1);
+                queue.push(0);
                 whileLoopValue++;
             }
             whileLoopValue = 0;
             //pushes the student objects
             
             while (whileLoopValue < staffValue) {
-                priorityQueue.push(1);
+                priorityQueue.push(0);
                 whileLoopValue++;
             }
             whileLoopValue = 0;
@@ -158,42 +174,33 @@ public class Cafeteria
             
             
             
-            head = queue.head;
-            pHead = priorityQueue.head;
-            System.out.println(pHead);
-            //redfining the head of the queue as it has changed from all the values we have pushed
-            Elements next = head;
-            Elements pNext = pHead;
-            //System.out.println("head is "+next.getValue());
             
-            float divideStudent = 0;
-            float divideStaff = 0;
-            float totalStudent = 0;
-            float totalStaff = 0;
-            //values for finding the averages 
             
-            while (next != null) {
-                totalStudent = totalStudent + next.getValue();
-                divideStudent++;
-                next = next.nextStack();
-                //goes to the next object in the queue 
-            }
+            // while (next != null) {
+                // totalStudent = totalStudent + next.getValue();
+                // divideStudent++;
+                // next = next.nextStack();
+                // //goes to the next object in the queue 
+            // }
             
-            while (pNext != null) {
-                totalStaff = totalStaff + pNext.getValue();
-                System.out.println(totalStaff);
-                divideStaff++;
-                System.out.println(divideStaff);
-                pNext = pNext.nextStack();
-            }
+            // while (pNext != null) {
+                // totalStaff = totalStaff + pNext.getValue();
+                // System.out.println(totalStaff);
+                // divideStaff++;
+                // System.out.println(divideStaff);
+                // pNext = pNext.nextStack();
+            // }
             
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
             float staffAverage = totalStaff/divideStaff;
+            staffAverageList.add(staffAverage);
             //staff average time
             float studentAverage = totalStudent/divideStudent;
+            studentAverageList.add(studentAverage);
             //student average time
             float average = (totalStaff + totalStudent)/(divideStudent + divideStaff);
+            averageList.add(average);
             //average time for both students and teachers
             
             System.out.println("The average wait time for "+(i+1)+" minutes for students is "+studentAverage);
