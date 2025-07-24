@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.Scanner;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 public class Gui extends JFrame implements ActionListener,MouseListener
 {
     JMenuBar menuBar;
@@ -45,7 +47,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     //Screen size
     int drawMenuValue = 1;
     
-
+    private Cafeteria cafetria = new Cafeteria();
+    private ArrayList<Float> staffAverageList = cafetria.staffAverageList;
+    private ArrayList<Float> studentAverageList = cafetria.studentAverageList;
+    private ArrayList<Float> averageList = cafetria.averageList;
+    
+    
     public Gui() {
         setTitle("Cafeteria Simulator");
         menuBar = new JMenuBar();
@@ -210,6 +217,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 g2.setColor(Color.BLACK);
                 //Sets colour.
                 g2.drawString("Back",203,360);
+                  String myString = String.valueOf(staffAverageList.get(0));
+                  g2.drawString("average for staff at 1 minute is "+myString,150,270);
                 break;
         }
     }

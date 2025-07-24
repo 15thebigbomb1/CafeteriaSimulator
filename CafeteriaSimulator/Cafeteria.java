@@ -22,9 +22,9 @@ public class Cafeteria
     ArrayList<String> servedAmount = new ArrayList<String>();
     Scanner kb = new Scanner(System.in);
     
-    private ArrayList<Float> staffAverageList = new ArrayList<Float>();
-    private ArrayList<Float> studentAverageList = new ArrayList<Float>();
-    private ArrayList<Float> averageList = new ArrayList<Float>();
+    public ArrayList<Float> staffAverageList = new ArrayList<Float>();
+    public ArrayList<Float> studentAverageList = new ArrayList<Float>();
+    public ArrayList<Float> averageList = new ArrayList<Float>();
     private Queue queue = new Queue();
     // defines the queue class
     private Elements head = queue.head;
@@ -120,7 +120,10 @@ public class Cafeteria
         //defines the head element found in the queue class.
         Elements tail = queue.Tail;
         //defines the tail element found in the queue class.
-        
+        float divideStudent = 0;
+        float divideStaff = 0;
+        float totalStudent = 0;
+        float totalStaff = 0;
         for (int i = 0;i<=timeFrame;i++) {
             queue.updateTime(); 
             priorityQueue.updateTime();
@@ -142,10 +145,7 @@ public class Cafeteria
             Elements next = head;
             Elements pNext = pHead;
             //System.out.println("head is "+next.getValue());
-            float divideStudent = 0;
-            float divideStaff = 0;
-            float totalStudent = 0;
-            float totalStaff = 0;
+            
             //values for finding the averages 
             
 
@@ -164,8 +164,16 @@ public class Cafeteria
             
             while (whileLoopValue < servedValue) {
                 if (priorityQueue.queueEmpty() == false) {
+                    divideStaff = divideStaff + 1;
+                    System.out.println("divide for staff "+divideStaff);
+                    totalStaff = totalStaff + priorityQueue.head.getValue();
+                    System.out.println("total for staff "+totalStaff);
                     priorityQueue.pop();
                 } else {
+                    divideStudent = divideStudent + 1;
+                    System.out.println("divide for students "+divideStudent);
+                    totalStudent = totalStudent + queue.head.getValue();
+                    System.out.println("total for Student "+totalStudent);
                     queue.pop();
                 }
                 whileLoopValue++;
@@ -193,7 +201,13 @@ public class Cafeteria
             
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
-            float staffAverage = totalStaff/divideStaff;
+            System.out.println();
+            float staffAverage;
+            if (divideStaff == 0) {
+                staffAverage = 0;
+            } else {
+                staffAverage = totalStaff/divideStaff;
+            }
             staffAverageList.add(staffAverage);
             //staff average time
             float studentAverage = totalStudent/divideStudent;
