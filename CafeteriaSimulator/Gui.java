@@ -47,14 +47,17 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     //Screen size
     int drawMenuValue = 1;
     
-    private Cafeteria cafetria = new Cafeteria();
-    private ArrayList<Float> staffAverageList = cafetria.staffAverageList;
-    private ArrayList<Float> studentAverageList = cafetria.studentAverageList;
-    private ArrayList<Float> averageList = cafetria.averageList;
+    private Cafeteria cafeteria = new Cafeteria();
+    private ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
+    private ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
+    private ArrayList<Float> averageList = cafeteria.averageList;
+    
     
     
     public Gui() {
         setTitle("Cafeteria Simulator");
+        cafeteria.DefineCSVFile();
+        cafeteria.RunCafeteria(60);
         menuBar = new JMenuBar();
         //Defines menubar in method.
         menuBar.setBackground(Color.GRAY);
@@ -199,26 +202,15 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //-button.
                 break;
             case 2:
-                g2.setColor(new Color(255,238,140));
-                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
-                g2.drawString("Hello World!",97,270);
                 g2.setColor(Color.WHITE);
-                //Sets colour.
-                g2.fillRect(200,340,65,25);
-                //Paints a colour filled rectangle and defines size and corrodinates.
-                g2.setColor(Color.BLACK);
-                //Sets Colour.
+                g2.fillRect(67,242,335,40);
                 g2.setStroke(new BasicStroke(3));
-                g2.drawRect(200,340,65,25);
-                //Draws another rectangle over the filled rectangle in a diffrent colour-
-                //-to create a border for it.
-                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,25));
-                //Sets font.
                 g2.setColor(Color.BLACK);
-                //Sets colour.
-                g2.drawString("Back",203,360);
-                  String myString = String.valueOf(staffAverageList.get(0));
-                  g2.drawString("average for staff at 1 minute is "+myString,150,270);
+                g2.drawRect(67,242,335,40);
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
+                g2.setColor(Color.RED);
+                g2.drawString("START SIMULATOR",70,275);
+                
                 break;
         }
     }

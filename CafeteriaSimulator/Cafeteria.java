@@ -43,7 +43,7 @@ public class Cafeteria
 
     }
 
-    public void defineCSVFile() {
+    public void DefineCSVFile() {
         File  thefile = new File(filename);  // generate the file handle
         String CSVlines[] = new String[MAXLINES]; //holds the csvLine
         String AllLinesAllElements[][]=new String[MAXLINES][VALUESPERLINE];  // where we keep all those lines we read in.
@@ -99,13 +99,12 @@ public class Cafeteria
         } catch (IOException e) {System.out.println(e);}
     }
 
-    public void RunCafetria() {
+    public void RunCafeteria(int timeFrame) {
         System.out.println("How long do you want to run the simulator for?");
-        int timeFrame = 0;
         boolean timeEnterLoop = true;
         while (timeEnterLoop == true) {
-             timeFrame = (kb.nextInt() -1);
-             if (timeFrame <= 60) {
+             timeFrame = timeFrame - 1;
+             if (timeFrame <= 60 && timeFrame > 0) {
                  timeEnterLoop = false;
              } else {
                 System.out.println("try again"); 
