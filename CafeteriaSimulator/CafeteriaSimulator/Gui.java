@@ -34,6 +34,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     Canvas startingGraphic;
     Canvas mainGraphic;
     Canvas inputGraphic;
+    Canvas averageGraphic;
     //Canvas that displays the drawn properties like the drawn buttons and-
     //-images.
     ImageIcon whsLogo = new ImageIcon("whsLogo.png");
@@ -108,19 +109,23 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         startingPanel = new JPanel();
         mainPanel = new JPanel();
         inputPanel = new JPanel();
+        averageDisplayedPanel = new JPanel();
         inputPanel.setLayout(null);
         //Defines the panels that will be used in the gui.
         startingPanel.setBackground(panelColor);
         mainPanel.setBackground(new Color(135, 224, 144));
         inputPanel.setBackground(new Color(207,226,243));
+        averageDisplayedPanel.setBackground(new Color(207,226,243));
         //Changes the colour to the color chosen for the background.
         startingGraphic = new Canvas();
         mainGraphic = new Canvas();
         inputGraphic = new Canvas();
+        averageGraphic = new Canvas();
         //Defines the canvas that will be used in the gui.
         startingPanel.add(startingGraphic); 
         mainPanel.add(mainGraphic);
         inputPanel.add(inputGraphic);
+        averageDisplayedPanel.add(averageGraphic);
         //Adds the canvases to the panels.
         inputPanel.add(textField);
 
@@ -150,10 +155,13 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 break;
             case "Last page":
                 ChooseMenu(lastMenuValue);
+                drawStringError = false;
+                drawNumberError = false;
                 break;
 
         }
         //switch statement for menu items
+        
         if (e.getSource() == textField) {
             String textFieldInput = textField.getText().trim();
             //Gets the number from the textfield while getting rid of spaces added by the user.
@@ -165,6 +173,8 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                     //Runs the cafeteria simulator for how long the user has inputed.
                     drawNumberError = false;
                     drawStringError = false;
+                    
+                    ChooseMenu(5);
                     //resetting the error text
                 } else {
                     drawNumberError = true;
@@ -216,6 +226,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 drawMenuValue = 4;
                 repaint();
                 inputPanel();
+                break;
+            case 5:
+                System.out.println("Average menu chosen");
+                drawMenuValue = 5;
+                repaint();
+                averageDisplayedPanel();
         }
         //Switch statement that chooses the menu by running one of the three menu methods, and-
         //-repainting for the new panel
@@ -256,6 +272,16 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         lastMenuValue = 2;
 
     }
+    
+    public void averageDisplayedPanel() {
+        this.getContentPane().remove(deletePanel);
+        this.getContentPane().add(averageDisplayedPanel);
+        this.pack();
+        this.toFront();
+        
+        deletePanel = averageDisplayedPanel;
+        lastMenuValue = 4;
+    }
 
     public void paint (Graphics g ) {
         super.paint(g);
@@ -289,7 +315,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //Sets font.
                 g2.setColor(Color.BLACK);
                 //Sets colour.
-                g2.drawString("start",203,340);
+                g2.drawString("start",205,340);
                 //Draws the text found in the rectancle to make it look like a-
                 //-button.
                 break;
@@ -340,6 +366,33 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                     g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,20));
                     g2.drawString("(input must be a number from 1-60!)",10,410);
                 }
+                break;
+            case 5:
+                g2.setColor(Color.WHITE);
+                g2.fillRect(100,440,65,25);
+                g2.setColor(Color.BLACK);
+                g2.setStroke(new BasicStroke(3));
+                g2.drawRect(100,440,65,25);
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,25));
+                g2.setColor(Color.BLACK);
+                g2.drawString("Last",105,460);
+                
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,30));
+                g2.drawString("<",120,435);
+                //Draws last button.
+                g2.setColor(Color.WHITE);
+                g2.fillRect(310,440,65,25);
+                g2.setColor(Color.BLACK);
+                g2.setStroke(new BasicStroke(3));
+                g2.drawRect(310,440,65,25);
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,25));
+                g2.setColor(Color.BLACK);
+                g2.drawString("Next",315,460);
+                
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,20));
+                g2.drawString(">",332,435);
+                //draws next button
+                g2.drawString("at 0 minutes the average time was "+staffAverageList.get(0),20,100); 
         }
     }
 
@@ -370,8 +423,10 @@ public class Gui extends JFrame implements ActionListener,MouseListener
 
                 break;
             case 4:
-
+                
                 break;
+            case 5:
+                
 
         }
 
