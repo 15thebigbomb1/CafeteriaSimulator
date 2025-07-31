@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=Elements
+comment0.text=\r\n\ \r\n\r\n\ Gabriel\ Gibson\ \r\n\ Version\ one,\ 15/05/25\r\n
+comment1.params=
+comment1.target=Elements()
+comment2.params=to
+comment2.target=void\ LinkTo(Elements)
+comment3.params=
+comment3.target=Elements\ nextStack()
+comment4.params=value
+comment4.target=void\ setValue(int)
+comment5.params=
+comment5.target=void\ setStudent()
+comment6.params=
+comment6.target=void\ setTeacher()
+comment7.params=
+comment7.target=int\ getValue()
+comment8.params=
+comment8.target=java.lang.String\ getType()
+numComments=9
