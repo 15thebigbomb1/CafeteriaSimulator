@@ -18,10 +18,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenu menu;
     //Menu obejct that holds the menu item.
     JMenuItem menuItem;
+    JMenuItem menuItemTwo;
     //Menu item found in the menu.
     JPanel startingPanel;
     JPanel mainPanel;
     JPanel deletePanel;
+    
 
     //Menu Panel that holds the background colour and canvas.
     Canvas startingGraphic;
@@ -46,11 +48,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     int screenHeight = screenSize.height;
     //Screen size
     int drawMenuValue = 1;
+    int lastMenuValue = 1;
+    //value used in switch statement when choosing what to draw for what panel.
     
     private Cafeteria cafeteria = new Cafeteria();
     private ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
     private ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
     private ArrayList<Float> averageList = cafeteria.averageList;
+    //defines Cafeteria class and the cafeterias average array variables.
     
     
     
@@ -72,12 +77,17 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menu.setForeground(Color.WHITE);
         //Defines the colour of the menus text.
         menuItem = new JMenuItem("Exit");
-        //defines menuItem in method.
+        //Defines menuItem in method.
         menuItem.addActionListener(this);
-        //Adds a listener so when its pressed it'll run a method.
+        //Adds a listener so when its pressed it'll run a method..
+        menuItemTwo = new JMenuItem("Last page");
+        //Defines second menuitem in method.
+        menuItemTwo.addActionListener(this);
+        //Adds a listenter so when its pressed it'll run a method.
         menuBar.add(menu);
         menu.add(menuItem);
-        //Adds the menu to the menubar and adds the menuitem to the menu.
+        menu.add(menuItemTwo);
+        //Adds the menu to the menubar and adds the menuitems to the menu.
         
         startingPanel = new JPanel();
         mainPanel = new JPanel();
@@ -117,31 +127,47 @@ public class Gui extends JFrame implements ActionListener,MouseListener
             case "Exit":
                 System.exit(0);
                 break;
+            case "Last page":
+                ChooseMenu(lastMenuValue);
+                break;
+                
         }
+        //switch statement for menu items
     }
 
     public void ChooseMenu(int chooseMenuValue) {
         switch (chooseMenuValue) {
             case 1:
                 System.out.println("Starting menu chosen");
-                repaint();
                 drawMenuValue = 1;
+                //chooses 1 in a switch statement in the paint class to draw everything for the-
+                //-starting menu.
+                repaint();
+                //repaints the canvas.
                 startingPanel();
+                //runs starting panel method.
                 break;
             case 2:
-                System.out.println("Second menu chosen");
-                mainPanel();
+                System.out.println("Main menu chosen");
                 drawMenuValue = 2;
+                //chooses 2 in a switch statement in the paint class to draw everything for the-
+                //-main menu.
                 repaint();
+                //repaints the canvas.
+                mainPanel();
+                //runs main menu panel method.
                 break;
             case 3:
                 System.out.println("Option menu chosen:");
                 drawMenuValue = 3;
                 repaint();
+                //repaints the canvas.
                 break;
         }
+        //Switch statement that chooses the menu by running one of the three menu methods, and-
+        //-repainting for the new panel
     }
-
+    //Method class for choosing which menu
     public void startingPanel() {
         if (deletePanel == null) {
             System.out.println("first panel, nothing to delete");
@@ -155,6 +181,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //brings everything to the front
         this.setVisible(true);
         deletePanel = startingPanel;
+        lastMenuValue = 1;
     }
     
     public void mainPanel() {
@@ -163,6 +190,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         this.pack();
         this.toFront();
         deletePanel = mainPanel;
+        lastMenuValue = 1;
     }
     
     public void paint (Graphics g ) {
@@ -202,15 +230,31 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //-button.
                 break;
             case 2:
+                whsLogo.paintIcon(this,g,157,100);
+                //Paints the whs logo with its x and y corrodinates.
                 g2.setColor(Color.WHITE);
-                g2.fillRect(67,242,335,40);
-                g2.setStroke(new BasicStroke(3));
+                g2.fillRect(62,262,335,40);
+                g2.setStroke(new BasicStroke(4));
                 g2.setColor(Color.BLACK);
-                g2.drawRect(67,242,335,40);
+                g2.drawRect(62,262,335,40);
+                //Draws start button with outline.
                 g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
-                g2.setColor(Color.RED);
-                g2.drawString("START SIMULATOR",70,275);
-                
+                g2.setColor(Color.BLACK);
+                g2.drawString("START SIMULATOR",74,294);
+                //draws start button text
+                g2.setColor(Color.WHITE);
+                g2.fillRect(145,315,168,40);
+                g2.setStroke(new BasicStroke(4));
+                g2.setColor(Color.BLACK);
+                g2.drawRect(145,315,168,40);
+                //Draws setting button and outline.
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,33));
+                g2.setColor(Color.BLACK);
+                g2.drawString("SETTINGS",155,347);
+                //Draws setting buttons text.
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,15));
+                String myString = String.valueOf(studentAverageList.get(10));
+                g2.drawString("At 11 minutes the average for students is "+myString,20,400);
                 break;
         }
     }
