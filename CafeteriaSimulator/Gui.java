@@ -20,14 +20,20 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     JMenuItem menuItem;
     JMenuItem menuItemTwo;
     //Menu item found in the menu.
+    JTextField textField;
+    //text inputs found in menu.
     JPanel startingPanel;
     JPanel mainPanel;
+    JPanel settingsPanel;
+    JPanel inputPanel;
+    JPanel averageDisplayedPanel;
     JPanel deletePanel;
     
 
     //Menu Panel that holds the background colour and canvas.
     Canvas startingGraphic;
     Canvas mainGraphic;
+    Canvas inputGraphic;
     //Canvas that displays the drawn properties like the drawn buttons and -
     //- images.
     ImageIcon whsLogo = new ImageIcon("whsLogo.png");
@@ -89,19 +95,25 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         menu.add(menuItemTwo);
         //Adds the menu to the menubar and adds the menuitems to the menu.
         
+        textField = new JTextField();
         startingPanel = new JPanel();
         mainPanel = new JPanel();
+        inputPanel = new JPanel();
+        inputPanel.setLayout(null);
         //Defines the panels that will be used in the gui.
         startingPanel.setBackground(panelColor);
         mainPanel.setBackground(new Color(135, 224, 144));
+        inputPanel.setBackground(new Color(207,226,243));
         //Changes the colour to the color chosen for the background.
         startingGraphic = new Canvas();
         mainGraphic = new Canvas();
+        inputGraphic = new Canvas();
         //Defines the canvas that will be used in the gui.
         startingPanel.add(startingGraphic); 
         mainPanel.add(mainGraphic);
+        inputPanel.add(inputGraphic);
         //Adds the canvases to the panels.
-
+        inputPanel.add(textField);
         
         // Reupdates the startingPanel to update the colour of the background.
         this.getContentPane().setPreferredSize(new Dimension(windowWidth,windowHeight));
@@ -158,11 +170,16 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //runs main menu panel method.
                 break;
             case 3:
-                System.out.println("Option menu chosen:");
+                System.out.println("Option menu chosen");
                 drawMenuValue = 3;
                 repaint();
                 //repaints the canvas.
                 break;
+            case 4:
+                System.out.println("Input menu chosen");
+                drawMenuValue = 4;
+                repaint();
+                inputPanel();
         }
         //Switch statement that chooses the menu by running one of the three menu methods, and-
         //-repainting for the new panel
@@ -191,6 +208,20 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         this.toFront();
         deletePanel = mainPanel;
         lastMenuValue = 1;
+    }
+    
+    public void inputPanel() {
+        textField.setBounds(175, 175, 100, 60);
+        textField.setHorizontalAlignment(JTextField.CENTER);
+        textField.setFont(new Font("Arial", Font.PLAIN, 33));
+        this.getContentPane().remove(deletePanel);
+        this.getContentPane().add(inputPanel);
+        this.pack();
+        this.toFront();
+        
+        deletePanel = inputPanel;
+        lastMenuValue = 2;
+        
     }
     
     public void paint (Graphics g ) {
@@ -240,7 +271,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //Draws start button with outline.
                 g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,35));
                 g2.setColor(Color.BLACK);
-                g2.drawString("START SIMULATOR",74,294);
+                g2.drawString("START SIMULATOR",70,294);
                 //draws start button text
                 g2.setColor(Color.WHITE);
                 g2.fillRect(145,315,168,40);
@@ -256,6 +287,16 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 String myString = String.valueOf(studentAverageList.get(10));
                 g2.drawString("At 11 minutes the average for students is "+myString,20,400);
                 break;
+            case 3:
+                            
+                break;
+            case 4:
+                g2.setFont(new Font("Franklin Gothic Demi",Font.BOLD,30));
+                g2.setColor(Color.BLACK);
+                g2.drawString("Enter below how long you",48,134);
+                g2.drawString("want to run the simulator from",20,164);
+                g2.drawString("(1-60) minutes!",125,200);
+                
         }
     }
     public void mouseExited(MouseEvent e) {};
@@ -267,6 +308,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Defines the mouses x corrodinate.
         int mouseY = e.getY();
         //Defines the mouses Y corrodinate.
+        System.out.println(mouseX+"X "+mouseY+"Y");
         switch (drawMenuValue) {
             case 1: 
                 if (mouseX >= 200 && mouseX <= 265 && mouseY >= 320 && mouseY <= 345) {
@@ -275,11 +317,17 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 }
                 break;
             case 2:
-                if (mouseX >= 200 && mouseX <= 265 && mouseY >= 340 && mouseY <= 365) {
+                if (mouseX >= 62 && mouseX <= 397 && mouseY >= 262 && mouseY <= 302 ) {
                     System.out.println("button Pressed");
-                    ChooseMenu(1);
+                    ChooseMenu(4);
                 }
                 break;
+            case 3:
+                
+                break;
+            case 4:
+                break;
+                
         }
     }
 
