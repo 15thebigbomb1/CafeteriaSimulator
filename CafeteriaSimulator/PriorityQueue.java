@@ -4,8 +4,8 @@
 /**
  * Write a description of class IQueue here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Gabriel Gibson
+ * @version 13/07/25
  */
 public class PriorityQueue
 {

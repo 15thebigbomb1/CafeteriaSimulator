@@ -4,7 +4,7 @@
  * Write a description of class guiTen here.
  *
  * @author Gabriel Gibson
- * @version 14/07/25
+ * @version 3/08/25
  */
 import javax.swing.*;
 import java.awt.*;
@@ -184,6 +184,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //Deines the string as an int.
                 if (cafeteriaRunNumber >= 1 && cafeteriaRunNumber <= 60) {
                     cafeteria.RunCafeteria(cafeteriaRunNumber);
+                    ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
+                    ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
+                    ArrayList<Float> averageList = cafeteria.averageList;
                     //Runs the cafeteria simulator for how long the user has inputed.
                     drawNumberError = false;
                     drawStringError = false;
@@ -304,6 +307,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         lastMenuValue = 2;
         //defines the last menu value in switch statement
     }
+    
 
     public void inputPanel() {
         this.getContentPane().remove(deletePanel);
@@ -558,10 +562,12 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 if (mouseX >= 410 && mouseX <= 435 && mouseY >= 140 && mouseY<= 165) {
                     if (priorityQueueSetting == false) {
                         priorityQueueSetting = true;
+                        cafeteria.SettingsPush(1,true);
                         repaint();
                         
                     } else if (priorityQueueSetting == true) {
                         priorityQueueSetting = false;
+                        cafeteria.SettingsPush(1,false);
                         repaint();
                     }
                 }

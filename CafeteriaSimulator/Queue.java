@@ -4,8 +4,8 @@
 /**
  * Write a description of class IQueue here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Gabriel Gibson
+ * @version 13/07/25
  */
 public class Queue
 {
@@ -20,11 +20,17 @@ public class Queue
         return (head == null);
     }
     // returns if queue is empty
-    public void push (int value) {
+    public void push (int value,int teaOrStu) {
         Elements element = new Elements();
         //creates new element
         element.setValue(value);
         //defines the value of the object aka the int amount
+        if (teaOrStu == 1) {
+            element.setTeacher();
+        } else if (teaOrStu == 2) {
+            element.setStudent();
+        }
+        //defines if the object is a teacher or student 
         if (queueEmpty()) {
             head = element;
         }

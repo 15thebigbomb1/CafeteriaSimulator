@@ -1,4 +1,3 @@
- 
 
 import java.io.File;
 import java.util.Scanner;
@@ -8,8 +7,8 @@ import java.util.ArrayList;
 /**
  * Write a description of class Cafeteria here.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Gabriel Gibson
+ * @version 3/08/25
  */
 public class Cafeteria
 {
@@ -23,7 +22,7 @@ public class Cafeteria
     ArrayList<String> staffAmount = new ArrayList<String>();
     ArrayList<String> servedAmount = new ArrayList<String>();
     Scanner kb = new Scanner(System.in);
-    
+
     public ArrayList<Float> staffAverageList = new ArrayList<Float>();
     public ArrayList<Float> studentAverageList = new ArrayList<Float>();
     public ArrayList<Float> averageList = new ArrayList<Float>();
@@ -33,14 +32,16 @@ public class Cafeteria
     //defines the head element found in the queue class
     private Elements tail = queue.Tail;
     //defines the tail element found in the queue class
-    
+
     private PriorityQueue priorityQueue = new PriorityQueue();
     // defines the priority queue class for teachers
     private Elements pHead = priorityQueue.head;
     //defines the head element found in the priority queue class
     private Elements pTail = priorityQueue.head;
     //defines the tail element found in the priority queue class
-    
+
+    boolean priorityQueueSetting = true;
+    boolean randomnessSetting = false;
     public Cafeteria() {
 
     }
@@ -97,21 +98,21 @@ public class Cafeteria
                 System.out.println();
             }
             //Prints out the amounts of student,staff,served in each row.
-            
+
         } catch (IOException e) {System.out.println(e);}
     }
 
     public void RunCafeteria(int timeFrame) {
-        
+
         System.out.println("How long do you want to run the simulator for?");
         boolean timeEnterLoop = true;
         while (timeEnterLoop == true) {
-             timeFrame = timeFrame - 1;
-             if (timeFrame <= 60 && timeFrame > 0) {
-                 timeEnterLoop = false;
-             } else {
+            timeFrame = timeFrame - 1;
+            if (timeFrame <= 60 && timeFrame > 0) {
+                timeEnterLoop = false;
+            } else {
                 System.out.println("try again"); 
-             }
+            }
         }
         //Loop that runs until the number is between 1-60.
         while (queue.head != null) {
@@ -125,7 +126,7 @@ public class Cafeteria
         studentAverageList.clear();
         averageList.clear();
         //resets lists to 0 for debuggin incase new data is used
-        
+
         int whileLoopValue = 0;
         //defining the whileLoopValue.
         Elements head = queue.head;
@@ -158,70 +159,102 @@ public class Cafeteria
             Elements next = head;
             Elements pNext = pHead;
             //System.out.println("head is "+next.getValue());
-            
-            //values for finding the averages 
-            
 
-            while (whileLoopValue < studentValue) {
-                queue.push(0);
-                whileLoopValue++;
-            }
-            //pushes the students to the normal queue.
-            whileLoopValue = 0;
-            
-            
-            while (whileLoopValue < staffValue) {
-                priorityQueue.push(0);
-                whileLoopValue++;
-            }
-            //pushes the staff tto the priority queue
-            whileLoopValue = 0;
-            
-            
-            while (whileLoopValue < servedValue) {
-                if (priorityQueue.queueEmpty() == false) {
-                    divideStaff = divideStaff + 1;
-                    //Adds to the division used for the staff average.
-                    System.out.println("divide for staff "+divideStaff);
-                    totalStaff = totalStaff + priorityQueue.head.getValue();
-                    //Adds to the total used for the staff average.
-                    System.out.println("total for staff "+totalStaff);
-                    priorityQueue.pop();
-                    //Serves/pops a staff in the priority queue class, aka the priority line.
-                } else {
-                    divideStudent = divideStudent + 1;
-                    //Adds to the division used for the student average.
-                    System.out.println("divide for students "+divideStudent);
-                    totalStudent = totalStudent + queue.head.getValue();
-                    //Adds to the total used for the student average.
-                    System.out.println("total for Student "+totalStudent);
-                    queue.pop();
-                    //Serves/pops a student in the queue class, aka the normal line.
+            //values for finding the averages 
+            System.out.println(priorityQueueSetting);
+            if (priorityQueueSetting == true) {
+                System.out.println("priority code running");
+                while (whileLoopValue < staffValue) {
+                    priorityQueue.push(0);
+                    whileLoopValue++;
                 }
-                whileLoopValue++;
+                whileLoopValue = 0;
+                while (whileLoopValue < studentValue) {
+                    queue.push(0,2);
+                    whileLoopValue++;                   
+                }
+                whileLoopValue = 0;
+
+                while (whileLoopValue < servedValue) {
+                    if (priorityQueue.queueEmpty() == false) {
+                        divideStaff = divideStaff + 1;
+                        //Adds to the division used for the staff average.
+                        System.out.println("divide for staff "+divideStaff);
+                        totalStaff = totalStaff + priorityQueue.head.getValue();
+                        //Adds to the total used for the staff average.
+                        System.out.println("total for staff "+totalStaff);
+                        priorityQueue.pop();
+                        //Serves/pops a staff in the priority queue class, aka the priority line.
+                    } else {
+                        divideStudent = divideStudent + 1;
+                        //Adds to the division used for the student average.
+                        System.out.println("divide for students "+divideStudent);
+                        totalStudent = totalStudent + queue.head.getValue();
+                        //Adds to the total used for the student average.
+                        System.out.println("total for Student "+totalStudent);
+                        queue.pop();
+                        //Serves/pops a student in the queue class, aka the normal line.
+                    }
+                    whileLoopValue++;
+                }
+                whileLoopValue = 0;
+            } else if (priorityQueueSetting == false){
+                while (whileLoopValue < staffValue) {
+                    queue.push(0,1);
+                    whileLoopValue++;
+                } 
+                whileLoopValue = 0;
+                while (whileLoopValue < studentValue) {
+                    queue.push(0,2);
+                    whileLoopValue++;
+                }
+                whileLoopValue = 0;
+                while (whileLoopValue < servedValue) {
+                    if (queue.head.getType() == "Teacher") {
+                        divideStaff = divideStaff + 1;
+                        System.out.println("divide for staff "+divideStaff);
+                        totalStaff = totalStaff + queue.head.getValue();
+                        System.out.println("total for staff "+totalStaff);
+                        queue.pop();
+                    } else if (queue.head.getType() == "Student") {
+                        divideStudent = divideStudent + 1;
+                        //Adds to the division used for the student average.
+                        System.out.println("divide for students "+divideStudent);
+                        totalStudent = totalStudent + queue.head.getValue();
+                        //Adds to the total used for the student average.
+                        System.out.println("total for Student "+totalStudent);
+                        queue.pop();
+                    }
+                    whileLoopValue++;
+                }
+                whileLoopValue = 0;
             }
+
+            
+            
+            //pushes the staff tto the priority queue
+            
+            
             //while loop that pops/serves people in the priority queue first before the normal queue.
             whileLoopValue = 0;
-            
-            
-            
+
             
             
             // while (next != null) {
-                // totalStudent = totalStudent + next.getValue();
-                // divideStudent++;
-                // next = next.nextStack();
-                // //goes to the next object in the queue 
+            // totalStudent = totalStudent + next.getValue();
+            // divideStudent++;
+            // next = next.nextStack();
+            // //goes to the next object in the queue 
             // }
-            
+
             // while (pNext != null) {
-                // totalStaff = totalStaff + pNext.getValue();
-                // System.out.println(totalStaff);
-                // divideStaff++;
-                // System.out.println(divideStaff);
-                // pNext = pNext.nextStack();
+            // totalStaff = totalStaff + pNext.getValue();
+            // System.out.println(totalStaff);
+            // divideStaff++;
+            // System.out.println(divideStaff);
+            // pNext = pNext.nextStack();
             // }
-            
+
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
             //Prints out data that will be used to find averages.
@@ -234,18 +267,33 @@ public class Cafeteria
             }
             staffAverageList.add(staffAverage);
             //staff average time
-            float studentAverage = totalStudent/divideStudent;
+            float studentAverage;
+            if (divideStudent == 0) {
+                studentAverage  = 0;
+            } else {
+                studentAverage = totalStudent/divideStudent;
+            }             
             studentAverageList.add(studentAverage);
             //student average time
             float average = (totalStaff + totalStudent)/(divideStudent + divideStaff);
             averageList.add(average);
             //average time for both students and teachers
-            
+
             System.out.println("The average wait time for "+(i+1)+" minutes for students is "+studentAverage);
             System.out.println("The average wait time for "+(i+1)+" minutes for staff is "+staffAverage);
             System.out.println("The avaerage wait time for both students and teachers is "+average);
             System.out.println();
             System.out.println();
+        }
+    }
+
+    public void SettingsPush(int chooseSetting,boolean trueOrFalse) {
+        switch (chooseSetting) {
+            case 1:
+                this.priorityQueueSetting = trueOrFalse;
+                System.out.println("priorityQueue is set to "+priorityQueueSetting);
+                break;
+
         }
     }
 }

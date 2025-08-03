@@ -1,10 +1,12 @@
 #BlueJ class context
 comment0.target=Cafeteria
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Cafeteria\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Cafeteria\ here.\r\n\r\n\ @author\ Gabriel\ Gibson\r\n\ @version\ 3/08/25\r\n
 comment1.params=
 comment1.target=Cafeteria()
 comment2.params=
 comment2.target=void\ DefineCSVFile()
 comment3.params=timeFrame
 comment3.target=void\ RunCafeteria(int)
-numComments=4
+comment4.params=chooseSetting\ trueOrFalse
+comment4.target=void\ SettingsPush(int,\ boolean)
+numComments=5

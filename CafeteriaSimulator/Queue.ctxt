@@ -1,12 +1,12 @@
 #BlueJ class context
 comment0.target=Queue
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ IQueue\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ IQueue\ here.\r\n\r\n\ @author\ Gabriel\ Gibson\r\n\ @version\ 13/07/25\r\n
 comment1.params=
 comment1.target=Queue()
 comment2.params=
 comment2.target=boolean\ queueEmpty()
-comment3.params=value
-comment3.target=void\ push(int)
+comment3.params=value\ teaOrStu
+comment3.target=void\ push(int,\ int)
 comment4.params=
 comment4.target=void\ updateTime()
 comment5.params=
