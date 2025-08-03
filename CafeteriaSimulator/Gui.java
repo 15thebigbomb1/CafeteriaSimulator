@@ -12,25 +12,26 @@ import java.awt.geom.*;
 import java.util.Scanner;
 import java.awt.event.*;
 import java.util.ArrayList;
+//Imports librarys.
 
 public class Gui extends JFrame implements ActionListener,MouseListener
 {
     JMenuBar menuBar;
-    //Menubar object that holds the menu.
+    //Defines menubar
     JMenu menu;
-    //Menu obejct that holds the menu item.
+    //Defines menu
     JMenuItem menuItem;
     JMenuItem menuItemTwo;
-    //Menu item found in the menu.
+    //Defines menuItem
     JTextField textField;
-    //Text inputs found in menu that the user uses to input how long the simulator will run for.
+    //Defines textfield
 
     JPanel startingPanel;
     JPanel mainPanel;
     JPanel settingsPanel;
     JPanel inputPanel;
     JPanel averageDisplayedPanel;
-    //All panels that are used in my gui.
+    //defines all panels used
     JPanel deletePanel;
     //Used to define the panel that will be deleted before running the new panel.
     Canvas startingGraphic;
@@ -45,9 +46,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     ImageIcon whsLogo = new ImageIcon("whsLogo.png");
     //The url for the image that is displayed on the canvas.
     Color panelColor = new Color(135, 224, 144);
-    //Defines the colour of the panel, which will change when going to a diffrent-
-    //-page.
-    //Menu objects.
+    Color panelColorTwo = new Color(207,226,243);
+    //panel colours used on panel backgrounds.
+    
 
     public int windowWidth = 450;
     public int windowHeight = 450;
@@ -77,14 +78,17 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     //If set to true will draw error text on input panel about having a number between 1-60.
     
     boolean priorityQueueSetting = true;
+    //If set true will draw a checkmark confimring an option chosen by the user about the priority queue.
     boolean randomnessSetting = false;
+    //If set true will draw a checkmark confimring an option chosen by the user about randomness.
     public Gui() {
         setTitle("Cafeteria Simulator");
+        //Defines title.
         cafeteria.DefineCSVFile();
+        //Runs define csv file in cafeteria class.
         menuBar = new JMenuBar();
         //Defines menubar in method.
         menuBar.setBackground(Color.GRAY);
-        //Changes the colour of the menubar to gray.
         menuBar.setBorder(BorderFactory.createEmptyBorder());
         //Removes a white border line that is there by default between the bar and canvas to make the windows-
         //-colours blend more nicely.
@@ -113,8 +117,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         textField.setHorizontalAlignment(JTextField.CENTER);
         textField.setFont(new Font("Arial", Font.PLAIN, 33));
         textField.addActionListener(this);
-        //First line defines size of the text field, second line defines alligment of text and-
-        //-third line defines font used when the user types in text
+        //Lines define size font and centering text in textfield.
 
         startingPanel = new JPanel();
         mainPanel = new JPanel();
@@ -123,29 +126,29 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         inputPanel = new JPanel();
         inputPanel.setLayout(null);
         averageDisplayedPanel = new JPanel();
-        
-        //Defines the panels that will be used in the gui.
+        //defining panels in constructer and set some layouts to null so textfields can be placed anywhere in the canvas.
         startingPanel.setBackground(panelColor);
-        mainPanel.setBackground(new Color(135, 224, 144));
+        mainPanel.setBackground(panelColor);
         settingsPanel.setBackground(Color.LIGHT_GRAY);
-        inputPanel.setBackground(new Color(207,226,243));
-        averageDisplayedPanel.setBackground(new Color(207,226,243));
+        inputPanel.setBackground(panelColorTwo);
+        averageDisplayedPanel.setBackground(panelColorTwo);
         //Changes the colour to the color chosen for the background.
         startingGraphic = new Canvas();
         mainGraphic = new Canvas();
         inputGraphic = new Canvas();
         averageGraphic = new Canvas();
-        //Defines the canvas that will be used in the gui.
+        //Defines the canvas in the constructer
         startingPanel.add(startingGraphic); 
         mainPanel.add(mainGraphic);
         inputPanel.add(inputGraphic);
         averageDisplayedPanel.add(averageGraphic);
         //Adds the canvases to the panels.
         inputPanel.add(textField);
+        //ads textFields to panel 
 
         // Reupdates the startingPanel to update the colour of the background.
         this.getContentPane().setPreferredSize(new Dimension(windowWidth,windowHeight));
-        //Defines the size of the window at 450x450.
+        //Defines the size of the window.
         this.setResizable(false);
         //Makes it so the user cant resize the window.
         this.setLocation((screenWidth/2 - windowWidth/2),(screenHeight/2 - windowHeight/2));
@@ -156,6 +159,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         addMouseListener(this);
         //putting the window to the fronting and defining its viasibility to true\
         startingPanel();
+        //runs startingpanel method.
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -166,11 +170,14 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         switch(cmd) {
             case "Exit":
                 System.exit(0);
+                //exits
                 break;
             case "Last page":
                 ChooseMenu(lastMenuValue);
+                //method that draws the last panel.
                 drawStringError = false;
                 drawNumberError = false;
+                //resets error lines.
                 break;
 
         }
@@ -184,30 +191,30 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //Deines the string as an int.
                 if (cafeteriaRunNumber >= 1 && cafeteriaRunNumber <= 60) {
                     cafeteria.RunCafeteria(cafeteriaRunNumber);
+                    //Runs the cafeteria simulator for how long the user has inputed.
                     ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
                     ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
                     ArrayList<Float> averageList = cafeteria.averageList;
-                    //Runs the cafeteria simulator for how long the user has inputed.
+                    //redefines list if new options have been chosen.
                     drawNumberError = false;
                     drawStringError = false;
-                    
+                    //resets error lines.
                     ChooseMenu(5);
                     //resetting the error text
                 } else {
                     drawNumberError = true;
                     repaint();
-                    //Defines a boolean as true that when the cavas gets repainted will allow-
-                    //-error text to draw about the number not being between 1-60.
+                    //Allows error text about numbers to draw.
                 }
                 //will run cafeteria simulator unless 
             } else {
                 drawStringError = true;
                 repaint();
-                //Defines a boolean as true that when  the cavas gets repainted will allow-
-                //-error text to draw that will be how it has to be a number.
+                //Allows error text about string to draw.
             }
         }
-        //Code  that runs when the user presses enter on the keyboard        
+        //Code that will run when the user presses enter and if all the criteria is met will -
+        //-get all the averages for the cafeteria simualtor fromt he cafeteria class. 
     }
 
     public void ChooseMenu(int chooseMenuValue) {
@@ -215,41 +222,41 @@ public class Gui extends JFrame implements ActionListener,MouseListener
             case 1:
                 System.out.println("Starting menu chosen");
                 drawMenuValue = 1;
-                //chooses 1 in a switch statement in the paint class to draw everything for the-
-                //-starting menu.
+                //Value that will draw for starting menu in switch statemnt. 
                 repaint();
-                //repaints the canvas.
                 startingPanel();
                 //runs starting panel method.
                 break;
             case 2:
                 System.out.println("Main menu chosen");
                 drawMenuValue = 2;
-                //chooses 2 in a switch statement in the paint class to draw everything for the-
-                //-main menu.
+                //Value that will draw for main menu in switch statemnt. 
                 repaint();
-                //repaints the canvas.
                 mainPanel();
                 //runs main menu panel method.
                 break;
             case 3:
                 System.out.println("settings menu chosen");
                 drawMenuValue = 3;
+                //Value that will draw for settings menu in switch statemnt.
                 repaint();
-                //repaints the canvas.
                 settingsPanel();
                 break;
             case 4:
                 System.out.println("Input menu chosen");
                 drawMenuValue = 4;
+                //Value that will draw for input menu in switch statemnt. 
                 repaint();
                 inputPanel();
+                //runs the input panel method
                 break;
             case 5:
                 System.out.println("Average menu chosen");
                 drawMenuValue = 5;
+                //Value that will draw for average menu in switch statemnt.
                 repaint();
                 averageDisplayedPanel();
+                
         }
         //Switch statement that chooses the menu by running one of the three menu methods, and-
         //-repainting for the new panel
@@ -271,9 +278,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Packs everything and brings it to the front.
         
         this.setVisible(true);
-        //sets it visible
         deletePanel = startingPanel;
-        //defines the panel to delete next time
         lastMenuValue = 1;
         //defines the last menu value in switch statement
     }
@@ -285,10 +290,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Adds the new panel. 
         this.pack();
         this.toFront();
-        //Packs everything and brings it to the front.
-        
         deletePanel = mainPanel;
-        //defines the panel to delete next time
         lastMenuValue = 1;
         //defines the last menu value in switch statement
     }
@@ -300,10 +302,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Adds the new panel. 
         this.pack();
         this.toFront();
-        //Packs everything and brings it to the front.
-        
         deletePanel = settingsPanel;
-        //defines the panel to delete next time
         lastMenuValue = 2;
         //defines the last menu value in switch statement
     }
@@ -316,10 +315,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Adds the new panel. 
         this.pack();
         this.toFront();
-        //Packs everything and brings it to the front.
-
         deletePanel = inputPanel;
-        //defines the panel to delete next time
         lastMenuValue = 2;
         //defines the last menu value in switch statement
     }
@@ -331,10 +327,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //Adds the new panel. 
         this.pack();
         this.toFront();
-        //Packs everything and brings it to the front.
-        
         deletePanel = averageDisplayedPanel;
-        //defines the panel to delete next time
         lastMenuValue = 4;
         //defines the last menu value in switch statement
     }
@@ -412,25 +405,29 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 g2.drawString("Have priority queue for teachers",10,163);
                 g2.setStroke(new BasicStroke(4));
                 g2.drawRect(410,140,25,25);
+                //draws priority setting.
                 if (priorityQueueSetting == true) {
                     g2.setColor(Color.RED);
                     g2.setStroke(new BasicStroke(6));
                     g2.drawLine(412,140,422,159);
                     g2.drawLine(422,159,446,120);
                 }
-                //Draws priority setting and check mark.
+                //when priority setting is clicked by the user to be true-
+                //-a checkmark will be drawn over the box
                 g2.setColor(Color.BLACK);
                 g2.setFont(new Font("Arial",Font.BOLD,20));
                 g2.drawString("Add a 1-5% randomness on wait times",10,213);
                 g2.setStroke(new BasicStroke(4));
                 g2.drawRect(410,190,25,25);
+                //Draws Randomness setting.
                 if (randomnessSetting == true) {
                     g2.setColor(Color.RED);
                     g2.setStroke(new BasicStroke(6));
                     g2.drawLine(412,190,422,209);
                     g2.drawLine(422,209,446,170);
                 }
-                //Draws Randomness setting and checkmark.
+                //when priority setting is clicked by the user to be true-
+                //-a checkmark will be drawn over the box
                 g2.setColor(Color.BLACK);
                 g2.setFont(new Font("Arial",Font.BOLD,20));
                 g2.drawString("Placeholder #1",10,263);

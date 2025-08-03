@@ -1,3 +1,5 @@
+package CafeteriaSimulator;
+
 
 /**
  * Write a description of class IQueue here.
