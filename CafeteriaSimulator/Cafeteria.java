@@ -1,3 +1,5 @@
+ 
+
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException; // handle errors
@@ -100,6 +102,7 @@ public class Cafeteria
     }
 
     public void RunCafeteria(int timeFrame) {
+        
         System.out.println("How long do you want to run the simulator for?");
         boolean timeEnterLoop = true;
         while (timeEnterLoop == true) {
@@ -110,9 +113,19 @@ public class Cafeteria
                 System.out.println("try again"); 
              }
         }
+        //Loop that runs until the number is between 1-60.
+        while (queue.head != null) {
+            queue.pop();
+        }
+        while (priorityQueue.head != null) {
+            priorityQueue.pop();
+        }
+        //If the runCafeteria method is done multiple times this makes sure the queues are empty beforehand.
+        staffAverageList.clear();
+        studentAverageList.clear();
+        averageList.clear();
+        //resets lists to 0 for debuggin incase new data is used
         
-        // lets the user choose the amount of times the for loop runs and therefore-
-        //-how many minutes the simulation wll go for.
         int whileLoopValue = 0;
         //defining the whileLoopValue.
         Elements head = queue.head;
@@ -123,6 +136,7 @@ public class Cafeteria
         float divideStaff = 0;
         float totalStudent = 0;
         float totalStaff = 0;
+        //Defines the variables that will be used when calculating the averages for student and staff.
         for (int i = 0;i<=timeFrame;i++) {
             queue.updateTime(); 
             priorityQueue.updateTime();
@@ -152,31 +166,41 @@ public class Cafeteria
                 queue.push(0);
                 whileLoopValue++;
             }
+            //pushes the students to the normal queue.
             whileLoopValue = 0;
-            //pushes the student objects
+            
             
             while (whileLoopValue < staffValue) {
                 priorityQueue.push(0);
                 whileLoopValue++;
             }
+            //pushes the staff tto the priority queue
             whileLoopValue = 0;
+            
             
             while (whileLoopValue < servedValue) {
                 if (priorityQueue.queueEmpty() == false) {
                     divideStaff = divideStaff + 1;
+                    //Adds to the division used for the staff average.
                     System.out.println("divide for staff "+divideStaff);
                     totalStaff = totalStaff + priorityQueue.head.getValue();
+                    //Adds to the total used for the staff average.
                     System.out.println("total for staff "+totalStaff);
                     priorityQueue.pop();
+                    //Serves/pops a staff in the priority queue class, aka the priority line.
                 } else {
                     divideStudent = divideStudent + 1;
+                    //Adds to the division used for the student average.
                     System.out.println("divide for students "+divideStudent);
                     totalStudent = totalStudent + queue.head.getValue();
+                    //Adds to the total used for the student average.
                     System.out.println("total for Student "+totalStudent);
                     queue.pop();
+                    //Serves/pops a student in the queue class, aka the normal line.
                 }
                 whileLoopValue++;
             }
+            //while loop that pops/serves people in the priority queue first before the normal queue.
             whileLoopValue = 0;
             
             
@@ -200,6 +224,7 @@ public class Cafeteria
             
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
+            //Prints out data that will be used to find averages.
             System.out.println();
             float staffAverage;
             if (divideStaff == 0) {
