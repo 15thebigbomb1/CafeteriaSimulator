@@ -81,13 +81,26 @@ public class Cafeteria
                             System.out.println("Number!!!!");
                             break;
                         case 1:
-                            studentAmount.add(values[j]);
+                            if (values[j].matches("\\d+(\\.\\d+)?")){
+                                studentAmount.add(values[j]);
+                            } else {
+                                studentAmount.add("0");
+                            }
+                            //if the variable isnt a number it will default to 0
                             break;
                         case 2:
-                            staffAmount.add(values[j]);
+                            if (values[j].matches("\\d+(\\.\\d+)?") ){
+                                staffAmount.add(values[j]);
+                            } else {
+                                staffAmount.add("0");
+                            }
                             break;
                         case 3:
-                            servedAmount.add(values[j]);
+                             if (values[j].matches("\\d+(\\.\\d+)?")){
+                                 servedAmount.add(values[j]);
+                            } else {
+                                 servedAmount.add("0");
+                            }
                             break;
                         default:
                             System.out.println("not regonised");

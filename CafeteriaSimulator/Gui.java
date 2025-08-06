@@ -691,7 +691,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                 //-ie drawing the third average instead of the fourth average.
 
                 if (mouseX >= 310 && mouseX < 375 && mouseY >= 440 && mouseY <= 465) {
-                    if (getAverageFromList != cafeteriaRunNumber) {
+                    if (getAverageFromList != cafeteriaRunNumber-1) {
                         getAverageFromList = getAverageFromList + 1;
                         //Chooses the next average to be drawn
                         repaint();
@@ -706,6 +706,7 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                     lastMenuValue = 5;
                     ChooseMenu(2);
                 }
+                //
         }
 
     }
