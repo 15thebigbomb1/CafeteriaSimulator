@@ -54,6 +54,7 @@ public class Queue
         }
         //while loop that adds 1 minute to every object in queue
     }
+    //updates time by 1 minute for every object in the queue
     
     public int pop() {
         int value=head.getValue();

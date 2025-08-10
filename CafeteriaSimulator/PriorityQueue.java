@@ -19,7 +19,7 @@ public class PriorityQueue
     public boolean queueEmpty() {
         return (head == null);
     }
-    // returns if queue is empty
+    // returns if priority queue is empty
     public void push (int value) {
         Elements element = new Elements();
         //creates new element
@@ -36,7 +36,7 @@ public class PriorityQueue
         Tail = element;
         //element is defined as tail
     }
-    // creates/pushes a new object into the queue
+    // creates/pushes a new object into the priority queue
     public void updateTime() {
         Elements timeUpdater = head;
         //makes the first element updated the front of the queue
@@ -48,6 +48,7 @@ public class PriorityQueue
         }
         //while loop that adds 1 minute to every object in queue
     }
+    //method that updates the time for all objects in priority queue
     
     public int pop() {
         int value=head.getValue();
@@ -56,5 +57,5 @@ public class PriorityQueue
         return value;
         //returns the previous head value
     }
-    //removes the element at the front of the queue and defines the one next in queueas the head
+    //removes the element at the front of the priority queue and defines the one next in queueas the head
 }

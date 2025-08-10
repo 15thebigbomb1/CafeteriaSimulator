@@ -12,22 +12,30 @@ import java.util.ArrayList;
  */
 public class Cafeteria
 {
-    final String filename="Aririval.csv"; // change to reflect the CSV we are reading
-    File  theFile = new File(filename);  // generate the file handle
-    final int MAXLINES=180; // for ease of writing, we are only going to read at most 100 lines.
-    final int VALUESPERLINE=4;  
+    final String fileName="Aririval.csv"; 
+    // Default csv file.
+    File theFile = new File(fileName);  
+    // generate the file handle
+    final int MAXLINES=300;
+    // for ease of writing, we are only going to read at most 400 lines, aka 5 hours of time/
+    final int VALUESPERLINE=4; 
+    // 4 values for each line which is time,student,staff,served.
 
     private String[] values;
+    //defines values from the csv file before moving to the arrayList.
 
-    ArrayList<String> studentAmount = new ArrayList<String>();
-    ArrayList<String> staffAmount = new ArrayList<String>();
-    ArrayList<String> servedAmount = new ArrayList<String>();
+    private ArrayList<String> studentAmount = new ArrayList<String>();
+    private ArrayList<String> staffAmount = new ArrayList<String>();
+    private ArrayList<String> servedAmount = new ArrayList<String>();
+    //arrayList used at the start to define the amount of students per minute.
     public int amountOfMinutes = 0;
+    //used to find amount of minutes
     Scanner kb = new Scanner(System.in);
 
-    public ArrayList<Float> staffAverageList = new ArrayList<Float>();
-    public ArrayList<Float> studentAverageList = new ArrayList<Float>();
-    public ArrayList<Float> averageList = new ArrayList<Float>();
+    private ArrayList<Float> staffAverageList = new ArrayList<Float>();
+    private ArrayList<Float> studentAverageList = new ArrayList<Float>();
+    private ArrayList<Float> averageList = new ArrayList<Float>();
+    //the averages for the student staff and combined, will be put into these list when calculated.
     private Queue queue = new Queue();
     // defines the queue class
     private Elements head = queue.head;
@@ -43,26 +51,45 @@ public class Cafeteria
     //defines the tail element found in the priority queue class
 
     boolean priorityQueueSetting = true;
-    boolean randomnessSetting = false;
+    //changes from the gui setting page.
     public Cafeteria() {
 
     }
-    
+    //starts constructor.
     public void changeFile(File changeFile) {
         theFile = changeFile;
     }
+    //Runs if the user trys to change the file in the gui class.
+    public ArrayList<Float> getTheAverageLists(int chooseAverageList) {
+        switch (chooseAverageList) {
+            case 1:
+                return staffAverageList;
 
+            case 2:
+                return studentAverageList;
+
+            case 3:
+                return averageList;
+            default:
+                return null;
+        }
+    }
+    //Returns the private lists so that they can be used in the gui class to display the-
+    //averages.
     public void DefineCSVFile() {
-        String CSVlines[] = new String[MAXLINES]; //holds the csvLine
-        String AllLinesAllElements[][]=new String[MAXLINES][VALUESPERLINE];  // where we keep all those lines we read in.
-        int linecount=0;  // initially keeps track of lines read, eventually used to remember the number that was read;
+        String CSVlines[] = new String[MAXLINES]; 
+        //holds the csvLine
+        String AllLinesAllElements[][]=new String[MAXLINES][VALUESPERLINE];  
+        // where we keep all those lines we read in.
+        int linecount=0; 
+        // initially keeps track of lines read, eventually used to remember the number that was read;
 
         try {
             Scanner reader = new Scanner(theFile); // Opens the file with the Scanner,
             studentAmount.clear();
             staffAmount.clear();
             servedAmount.clear();
-            
+            //resets arrayLists if already defined before from using a diffrent csv file.
 
             while (reader.hasNextLine()  && linecount < MAXLINES){
                 String line=reader.nextLine();             
@@ -96,10 +123,10 @@ public class Cafeteria
                             }
                             break;
                         case 3:
-                             if (values[j].matches("\\d+(\\.\\d+)?")){
-                                 servedAmount.add(values[j]);
+                            if (values[j].matches("\\d+(\\.\\d+)?")){
+                                servedAmount.add(values[j]);
                             } else {
-                                 servedAmount.add("0");
+                                servedAmount.add("0");
                             }
                             break;
                         default:
@@ -126,7 +153,7 @@ public class Cafeteria
 
         } catch (IOException e) {System.out.println(e);}
     }
-
+    //method that Defines the csv file by putting all the variables read from the csv into sorted arrays.
     public void RunCafeteria(int timeFrame) {
 
         System.out.println("How long do you want to run the simulator for?");
@@ -185,37 +212,37 @@ public class Cafeteria
             Elements pNext = pHead;
             //System.out.println("head is "+next.getValue());
 
-            //values for finding the averages 
-            System.out.println(priorityQueueSetting);
             if (priorityQueueSetting == true) {
                 System.out.println("priority code running");
                 while (whileLoopValue < staffValue) {
                     priorityQueue.push(0);
                     whileLoopValue++;
                 }
+                //Pushes all staff to priority queue if priorityQueueSetting is set to true.
                 whileLoopValue = 0;
+                //resets whileLoopValue
                 while (whileLoopValue < studentValue) {
                     queue.push(0,2);
                     whileLoopValue++;                   
                 }
+                //Pushes student.
                 whileLoopValue = 0;
 
                 while (whileLoopValue < servedValue) {
                     if (priorityQueue.queueEmpty() == false) {
+
                         
-                        
-                        
-                            divideStaff = divideStaff + 1;
+                        divideStaff = divideStaff + 1;
                         System.out.println("divide for staff "+divideStaff);
                         //Adds to the division used for the staff average.
                         totalStaff = totalStaff + priorityQueue.head.getValue();
                         //Adds to the total used for the staff average.
                         System.out.println("total for staff "+totalStaff);
                         priorityQueue.pop();
-                        
+
                         //Serves/pops a staff in the priority queue class, aka the priority line.
                     } else {
-                        
+
                         if (this.queue.head == null) {
                             System.out.println("more served amount then people in queue");
                         } else {
@@ -229,71 +256,60 @@ public class Cafeteria
                         //Adds to the total used for the student average.
                         System.out.println("total for Student "+totalStudent);
                     }
+                    //Serves priority queue first if it isnt empty.
                     whileLoopValue++;
                 }
+                //serves student and staff and will servee staff first if any are found in the-
+                //priority queue.
                 whileLoopValue = 0;
             } else if (priorityQueueSetting == false){
                 while (whileLoopValue < staffValue) {
                     queue.push(0,1);
                     whileLoopValue++;
                 } 
+                //pushes staff to normal queue if priorityQueueSetting is set to false.
                 whileLoopValue = 0;
                 while (whileLoopValue < studentValue) {
                     queue.push(0,2);
                     whileLoopValue++;
                 }
+                //pushes students to normal queue.
                 whileLoopValue = 0;
                 while (whileLoopValue < servedValue) {
                     if (queue.head == null) {
                         System.out.println("more served then people in queue");
                     } else {
-                    if (queue.head.getType() == "Teacher") {
-                        
-                        divideStaff = divideStaff + 1;
-                        System.out.println("divide for staff "+divideStaff);
-                        totalStaff = totalStaff + queue.head.getValue();
-                        System.out.println("total for staff "+totalStaff);
-                        queue.pop();
-                    } else if (queue.head.getType() == "Student") {
-                        divideStudent = divideStudent + 1;
-                        //Adds to the division used for the student average.
-                        System.out.println("divide for students "+divideStudent);
-                        totalStudent = totalStudent + queue.head.getValue();
-                        //Adds to the total used for the student average.
-                        System.out.println("total for Student "+totalStudent);
-                        queue.pop();
+                        if (queue.head.getType() == "Teacher") {
+
+                            divideStaff = divideStaff + 1;
+                            System.out.println("divide for staff "+divideStaff);
+                            totalStaff = totalStaff + queue.head.getValue();
+                            System.out.println("total for staff "+totalStaff);
+                            queue.pop();
+                        } else if (queue.head.getType() == "Student") {
+                            divideStudent = divideStudent + 1;
+                            //Adds to the division used for the student average.
+                            System.out.println("divide for students "+divideStudent);
+                            totalStudent = totalStudent + queue.head.getValue();
+                            //Adds to the total used for the student average.
+                            System.out.println("total for Student "+totalStudent);
+                            queue.pop();
+                        }
+                        // if statement that finds if the person being served is student or staff before popping-
+                        //so they can add to the total and amount they have to divide by.
                     }
+                    whileLoopValue++;
                 }
-                whileLoopValue++;
-                }
-                
+
                 whileLoopValue = 0;
             }
+            //if statement that runs two diffrent chunks on code depending if the priority queue-
+            //-is set to on or off by the user.
 
-            
-            
             //pushes the staff tto the priority queue
-            
             
             //while loop that pops/serves people in the priority queue first before the normal queue.
             whileLoopValue = 0;
-
-            
-            
-            // while (next != null) {
-            // totalStudent = totalStudent + next.getValue();
-            // divideStudent++;
-            // next = next.nextStack();
-            // //goes to the next object in the queue 
-            // }
-
-            // while (pNext != null) {
-            // totalStaff = totalStaff + pNext.getValue();
-            // System.out.println(totalStaff);
-            // divideStaff++;
-            // System.out.println(divideStaff);
-            // pNext = pNext.nextStack();
-            // }
 
             System.out.println("Divide by for student is "+divideStudent+" and for teacher is "+divideStaff);
             System.out.println("Total for student is "+totalStudent+" and for teachers is "+totalStaff);
@@ -305,6 +321,7 @@ public class Cafeteria
             } else {
                 staffAverage = totalStaff/divideStaff;
             }
+            // Debug code that makes sure that averages aren't printed as null.
             staffAverageList.add(staffAverage);
             //staff average time
             float studentAverage;
@@ -315,7 +332,7 @@ public class Cafeteria
             }             
             studentAverageList.add(studentAverage);
             //student average time
-            float average = (totalStaff + totalStudent)/(divideStudent + divideStaff);
+            float average = (staffAverage + studentAverage)/2;
             averageList.add(average);
             //average time for both students and teachers
 
@@ -324,16 +341,24 @@ public class Cafeteria
             System.out.println("The avaerage wait time for both students and teachers is "+average);
             System.out.println();
             System.out.println();
+            //Prints out all averages.
         }
+        //While loop that gets the averages for how long the user has chosen to run the simulator for.
     }
+    //Runs the cafeteria simulator, by pushing staff and students into there selected queues in the-
+    //-queue class, then after calculates the averages for students,staff, and both combined, and then-
+    //puts the averages into there own list.
 
     public void SettingsPush(int chooseSetting,boolean trueOrFalse) {
         switch (chooseSetting) {
             case 1:
                 this.priorityQueueSetting = trueOrFalse;
+                //sets priorityQueueSetting to what the user has chosen in the gui class.
                 System.out.println("priorityQueue is set to "+priorityQueueSetting);
                 break;
 
         }
     }
+    //Switch statement for when the user chooses a setting in the gui-
+    //so that it will be pushed to the cafetria class.
 }

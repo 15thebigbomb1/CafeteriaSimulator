@@ -50,29 +50,29 @@ public class Gui extends JFrame implements ActionListener,MouseListener
     Color panelColorTwo = new Color(207,226,243);
     //panel colours used on panel backgrounds.
 
-    public int windowWidth = 450;
-    public int windowHeight = 450;
+    final int WINDOW_WIDTH = 450;
+    final int WINDOW_HEIGHT = 450;
     //Window variables for size.
 
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     Dimension screenSize = toolkit.getScreenSize();
     //Tools for finding screen dimensions
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
+    final int SCREEN_WIDTH = screenSize.width;
+    final int SCREEN_HEIGHT = screenSize.height;
     //Screen dimensions used to put the window in the middle of the display.
-    int drawMenuValue = 1;
-    int lastMenuValue = 1;
+    private int drawMenuValue = 1;
+    private int lastMenuValue = 1;
     //value used in switch statement when choosing what to draw for what panel.
-    boolean useLastMenuValue = true;
+    private boolean useLastMenuValue = true;
 
     private Cafeteria cafeteria = new Cafeteria();
-    int cafeteriaRunNumber;
-    int amountOfMinutes = 0;
-    private ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
-    private ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
-    private ArrayList<Float> averageList = cafeteria.averageList;
+    private int cafeteriaRunNumber;
+    private int amountOfMinutes = 0;
+    private ArrayList<Float> staffAverageList = cafeteria.getTheAverageLists(1);
+    private ArrayList<Float> studentAverageList = cafeteria.getTheAverageLists(2);
+    private ArrayList<Float> averageList = cafeteria.getTheAverageLists(3);
     //defines Cafeteria class and the cafeterias average array variables.
-    int getAverageFromList = 0;
+    private int getAverageFromList = 0;
     // int value that will be used when getting the averages from the lists.
 
     boolean drawStringError = false;
@@ -171,11 +171,11 @@ public class Gui extends JFrame implements ActionListener,MouseListener
         //adds the text Field to the panel.
 
         // Reupdates the startingPanel to update the colour of the background.
-        this.getContentPane().setPreferredSize(new Dimension(windowWidth,windowHeight));
+        this.getContentPane().setPreferredSize(new Dimension(WINDOW_WIDTH,WINDOW_HEIGHT));
         //Defines the size of the window.
         this.setResizable(false);
         //Makes it so the user cant resize the window.
-        this.setLocation((screenWidth/2 - windowWidth/2),(screenHeight/2 - windowHeight/2));
+        this.setLocation((SCREEN_WIDTH/2 - WINDOW_WIDTH/2),(SCREEN_HEIGHT/2 - WINDOW_HEIGHT/2));
         //Sets the location of the window on the screen by using a formula involving your screens-
         //-aspect ratio to make sure its in the middle on any screen.
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -222,9 +222,9 @@ public class Gui extends JFrame implements ActionListener,MouseListener
                     getAverageFromList = (cafeteriaRunNumber - 1);
                     //Shows the averages for what the user has put in for run time, so if the user set the-
                     //run cafeteria at 60 mins it will first show the averages for 60 mins,
-                    ArrayList<Float> staffAverageList = cafeteria.staffAverageList;
-                    ArrayList<Float> studentAverageList = cafeteria.studentAverageList;
-                    ArrayList<Float> averageList = cafeteria.averageList;
+                    ArrayList<Float> staffAverageList = cafeteria.getTheAverageLists(1);
+                    ArrayList<Float> studentAverageList = cafeteria.getTheAverageLists(2);
+                    ArrayList<Float> averageList = cafeteria.getTheAverageLists(3);
                     //redefines list if new options have been chosen.
                     drawNumberError = false;
                     drawStringError = false;
